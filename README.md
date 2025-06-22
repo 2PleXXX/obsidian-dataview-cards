@@ -35,7 +35,7 @@
 
 ## 🎥 **Video Example**
 
-![Interface example](assets/Screenshots/EXAMPLE%20interface%201.mp4)
+![Interface example](obsidian-vault/Screenshots/EXAMPLE%20interface%201.mp4)
 
 ---
 
