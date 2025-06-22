@@ -10,7 +10,7 @@
 
 ## 📸 **Interface Example**
 
-![Interface screenshot](assets/Screenshots/EXAMPLE%20interface%201.png)
+![Interface screenshot](obsidian-vault/assets/Screenshots/EXAMPLE%20interface%201.png)
 
 <!-- For GitHub (replace path if necessary) -->
 <!-- ![Interface screenshot](assets/interface-example-1.png) -->
