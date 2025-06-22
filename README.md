@@ -1,4 +1,4 @@
-**[English](README.md)** | **[Русский](README_RU.md)**
+**English** | **[Русский](README_RU.md)**
 
 # 🎴 **Universal Dataview Cards**
 
