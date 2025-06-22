@@ -10,7 +10,7 @@
 
 ## 📸 **Interface Example**
 
-![[EXAMPLE interface 1.png]]
+![Interface screenshot](assets/Screenshots/EXAMPLE%20interface%201.png)
 
 <!-- For GitHub (replace path if necessary) -->
 <!-- ![Interface screenshot](assets/interface-example-1.png) -->
@@ -35,7 +35,7 @@
 
 ## 🎥 **Video Example**
 
-![[EXAMPLE interface 1.mp4]]
+![Interface example](assets/Screenshots/EXAMPLE%20interface%201.mp4)
 
 ---
 
