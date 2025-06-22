@@ -1,0 +1,222 @@
+/* === Dashboard CSS ===
+   Назначение: Чистый и адаптивный стиль для домашней страницы Obsidian
+   Обновлено: 2025-05-09
+*/
+
+/* === Общие настройки контейнера === */
+.dashboard {
+    font-family: inherit;
+    padding: 20px 25px !important;
+}
+
+/* Убираем ограничение ширины при включенной "Readable line width" */
+.dashboard.markdown-preview-view.is-readable-line-width .markdown-preview-section,
+.dashboard.markdown-preview-view.is-readable-line-width .markdown-preview-section > div {
+    width: 100% !important;
+    max-width: 100% !important;
+}
+
+/* === Заголовки === */
+.dashboard h1 {
+    border-bottom: 1px dotted var(--text-muted);
+    padding-bottom: 3px !important;
+    margin-top: 30px;
+}
+
+.dashboard h2 {
+    font-size: 1.25rem; /* 18pt ≈ 24px */
+    border-left: 4px solid var(--text-accent);
+    padding-left: 12px;
+    margin-top: 35px;
+    margin-bottom: 15px;
+}
+
+/* === Списки плиток === */
+.dashboard div > ul {
+    list-style: none;
+    display: flex;
+    flex-flow: row wrap;
+    gap: 30px;
+    padding: 0;
+    margin: 0 0 20px 0;
+}
+
+/* === Плитки === */
+.dashboard div > ul > li {
+    flex: 1 1 250px;
+    box-sizing: border-box;
+    background-color: var(--background-secondary-alt);
+    border-radius: 12px;
+    padding: 16px;
+    min-height: 100px;
+    overflow-wrap: break-word;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    /* При необходимости можно раскомментировать */
+    /* cursor: pointer; */
+}
+
+/* Hover-эффект для плиток */
+.dashboard div > ul > li:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Удаление автоматических эмодзи перед пунктами списка */
+.dashboard li::before {
+    content: none !important;
+}
+
+/* Удаление bullets и отступов, созданных темой Obsidian */
+.dashboard .markdown-preview-section .list-bullet {
+    display: none !important;
+}
+.dashboard.markdown-rendered.show-indentation-guide li > ul::before,
+.dashboard.markdown-rendered.show-indentation-guide li > ol::before {
+    display: none;
+}
+.dashboard div.markdown-preview-section > div > ul.has-list-bullet > li {
+    padding-left: 0 !important;
+}
+
+/* === Dataview таблицы === */
+.dashboard .dataview {
+    padding: 5px 10px;
+    border-radius: 10px;
+}
+
+/* Таблица: базовая стилизация */
+.dashboard .dataview table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+    table-layout: auto; /* для адаптивной ширины колонок */
+}
+
+/* Общие стили для ячеек */
+.dashboard .dataview td,
+.dashboard .dataview th {
+    padding: 4px 8px;
+    word-wrap: break-word;
+    text-align: left !important;
+}
+
+/* Первая колонка: основное содержимое (например, названия файлов) */
+.dashboard .dataview td:first-child,
+.dashboard .dataview th:first-child {
+    width: 60%;
+    word-break: break-word;
+}
+
+/* Последняя колонка: даты или действия */
+.dashboard .dataview td:last-child,
+.dashboard .dataview th:last-child {
+    width: 40%;
+    white-space: nowrap;
+    text-align: right;
+}
+
+/* === Тёмная тема — плитки === */
+@media (prefers-color-scheme: dark) {
+    .dashboard div > ul > li {
+        background-color: rgba(255, 255, 255, 0.03);
+    }
+}
+
+
+
+
+
+
+
+
+
+/* Плавное появление плитки */
+.dashboard div > ul > li {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: slideIn 0.5s ease-out forwards;
+}
+
+@keyframes slideIn {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+
+
+
+
+
+
+/* Мягкий светлый эффект при наведении */
+.dashboard div > ul > li:hover {
+    background-color: rgba(255, 255, 255, 0.05); /* было 0.2 */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);  /* чуть глубже тень */
+    transform: scale(1.02);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+
+
+
+
+
+
+/* Градиентный фон для секций */
+.dashboard h1, .dashboard h2 {
+    background: linear-gradient(135deg, rgba(0, 123, 255, 0.3), rgba(255, 123, 0, 0.3));
+    padding: 10px;
+    border-radius: 8px;
+}
+
+
+
+
+
+/* Градиентный border (не фон) плитки при наведении */
+.dashboard div > ul > li {
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    background-clip: padding-box;
+    position: relative;
+    z-index: 1;
+}
+
+.dashboard div > ul > li:hover::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 12px;
+    padding: 1px;
+    background: linear-gradient(120deg, rgba(180, 60, 130, 0.6), rgba(100, 100, 255, 0.4));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    z-index: -1;
+}
+
+
+
+
+
+/* Белая рамка вокруг плиток */
+.dashboard div > ul > li {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+
+
+
+
+/* Глубокая тень на заднем фоне (ambient glow) */
+.dashboard div > ul > li:hover {
+    box-shadow: 0 0 18px rgba(180, 60, 130, 0.25), 0 6px 12px rgba(0, 0, 0, 0.25);
+}

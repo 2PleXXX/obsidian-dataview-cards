@@ -1,0 +1,279 @@
+{
+  "main": {
+    "id": "824c5f115704da2f",
+    "type": "split",
+    "children": [
+      {
+        "id": "d97a29b2153acace",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "6b999921fafb49f7",
+            "type": "leaf",
+            "pinned": true,
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "00 HUB.md",
+                "mode": "preview",
+                "source": false
+              },
+              "pinned": true,
+              "icon": "lucide-file",
+              "title": "00 HUB"
+            }
+          },
+          {
+            "id": "618dceecdad1b2c3",
+            "type": "leaf",
+            "pinned": true,
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "README_RU.md",
+                "mode": "source",
+                "source": false
+              },
+              "pinned": true,
+              "icon": "lucide-file",
+              "title": "README_RU"
+            }
+          },
+          {
+            "id": "b56a48228b2301fa",
+            "type": "leaf",
+            "state": {
+              "type": "empty",
+              "state": {},
+              "icon": "lucide-file",
+              "title": "Новая вкладка"
+            }
+          },
+          {
+            "id": "781e452753295167",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "README.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "README"
+            }
+          },
+          {
+            "id": "1d35d4ec22eb52b0",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "README_RU.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "README_RU"
+            }
+          }
+        ],
+        "currentTab": 4
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "8876b3bbc37cc130",
+    "type": "split",
+    "children": [
+      {
+        "id": "fdd7ea988106b551",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "0bff73eb6bfaf004",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Файловый менеджер"
+            }
+          },
+          {
+            "id": "ed4ed4c9b781f7cd",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Поиск"
+            }
+          },
+          {
+            "id": "1c2e48d51900b2f1",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Закладки"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 340.5
+  },
+  "right": {
+    "id": "0dfebf530b89c41d",
+    "type": "split",
+    "children": [
+      {
+        "id": "a1d780851ecd5485",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "d8052bc4adc85851",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "ru/00 Примеры конфигураций/03 Всё вместе.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Обратные ссылки для 03 Всё вместе"
+            }
+          },
+          {
+            "id": "9f8309967ea1b9cc",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "Demo cards/Руководство/Решение возможных проблем.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Исходящие ссылки из Решение возможных проблем"
+            }
+          },
+          {
+            "id": "6f8f9dcdaaec0b33",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Теги"
+            }
+          },
+          {
+            "id": "41d56c76c4125fd4",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "Demo cards/Руководство/Решение возможных проблем.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Структура Решение возможных проблем"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 306.5,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Меню быстрого перехода": false,
+      "graph:Граф": false,
+      "canvas:Создать новый холст": false,
+      "daily-notes:Сегодняшняя заметка": false,
+      "templates:Вставить шаблон": false,
+      "command-palette:Открыть палитру команд": false
+    }
+  },
+  "active": "1d35d4ec22eb52b0",
+  "lastOpenFiles": [
+    "README.md",
+    "README_RU.md",
+    "en/01 Roadmap.md",
+    "en/01 Guides/03 Help and advices/07 Contact the Author.md",
+    "en/01 Guides/03 Help and advices/06 How to Hide Properties.md",
+    "en/01 Guides/03 Help and advices/05 Automatic Enable of Preview Mode.md",
+    "en/01 Guides/03 Help and advices/04 How to Edit Code More Easily.md",
+    "en/01 Guides/03 Help and advices/03 How to Translate the Script into Another Language.md",
+    "en/01 Guides/03 Help and advices/02 Recommendations for Naming YAML Fields.md",
+    "en/01 Guides/03 Help and advices/01 How to Understand Evaluation Error in Obsidian.md",
+    "ru/01 Путеводитель.md",
+    "ru/01 Руководство/03 Помощь и рекомендации/07 Связь с автором.md",
+    "ru/01 Руководство/03 Помощь и рекомендации/06 Как скрыть Свойства.md",
+    "ru/01 Руководство/03 Помощь и рекомендации/05 Автоматическое включение режима просмотра.md",
+    "ru/01 Руководство/03 Помощь и рекомендации/04 Как удобнее редактировать код.md",
+    "ru/01 Руководство/03 Помощь и рекомендации/03 Как перевести скрипт на другой язык.md",
+    "ru/01 Руководство/03 Помощь и рекомендации/02 Рекомендации по наименованию полей в YAML.md",
+    "ru/01 Руководство/03 Помощь и рекомендации/01 Как понять ошибку Evaluation Error в Obsidian.md",
+    "ru/01 Руководство/03 Помощь и рекомендации/02 Как избавить от привязки к GitHub.md",
+    "ru/01 Руководство/01 Блоки конфигурации/01 📁 ИСТОЧНИК ДАННЫХ.md",
+    "ru/00 Примеры конфигураций/03 Всё вместе.md",
+    "ru/00 Начало.md",
+    "00 HUB.md",
+    "ru/00 Примеры конфигураций/02 Книги.md",
+    "obsidian.md-1750590925012.log",
+    "obsidian.md-1750589919468.log",
+    "obsidian.md-1750589706656.log",
+    "CHANGELOG.md",
+    "obsidian.md-1750589592013.log",
+    "ru/01 Руководство/01 Блоки конфигурации/08 🖼 ОТОБРАЖАЕМЫЕ ПОЛЯ.md",
+    "en/🧠_En_Version_WORK IN PROGRESS",
+    "en/99 Scrennshots/Навыки чтения.gif",
+    "en/99 Scrennshots",
+    "assets/Screenshots/AUTHOR.png",
+    "assets/Screenshots/KLA1DER.png",
+    "ru/99 Screenshots/Навыки чтения.gif",
+    "assets/Screenshots/Visual overview 3.png",
+    "obsidian-dataview-cards2/scripts/universal-cards-lang.js",
+    "obsidian-dataview-cards2/scripts/universal-cards-core.js",
+    "obsidian-dataview-cards2/scripts",
+    "obsidian-dataview-cards2/ru/99 Screenshots/Reading skills.png",
+    "obsidian-dataview-cards2/ru/02 Руководство/03 Помощь и рекомендации",
+    "obsidian-dataview-cards2/assets/Screenshots/Visual overview 6.png",
+    "obsidian-dataview-cards2/assets/Screenshots/Visual overview 5.png",
+    "obsidian-dataview-cards2/assets/Screenshots/Visual overview 4.png",
+    "obsidian-dataview-cards2/assets/Screenshots/Visual overview 3.png",
+    "5 Обучение/1 Работы по обучению/2025 03 Март/Анимация Соника 2/Аниматик Соника 2.canvas",
+    "5 Обучение/1 Работы по обучению/2024 11 Ноябрь/Анимация Немощь/Анимация Немощь.canvas"
+  ]
+}
