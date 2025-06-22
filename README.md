@@ -1,82 +1,66 @@
-# 🎴 **Универсальные карточки Dataview**
+**[English](README.md)** | **[Русский](README_RU.md)**
 
-> Многофункциональный скрипт для отображения карточек в Obsidian на базе Dataview с поддержкой секций, фильтрации, сортировки, медиа, прогресс-баров и многого другого.
+# 🎴 **Universal Dataview Cards**
 
-📄 Это русская версия документации.
-📘 Для **английской версии**, нажмите сюда: [README](./README.md)
+> A multifunctional script for displaying cards in Obsidian, based on DataviewJS, with support for sections, filtering, sorting, media, progress bars, and much more.
 
-![version-badge](https://img.shields.io/badge/version-1.0.0-blue)
-
-![obsidian-badge](https://img.shields.io/badge/for-Obsidian-%231e1e1e?logo=obsidian)
-
-![dataview-badge](https://img.shields.io/badge/based_on-DataviewJS-3a76c4)
-
-![status-badge](https://img.shields.io/badge/status-active-brightgreen)
-
-![maintenance-badge](https://img.shields.io/badge/maintained-yes-brightgreen)
-
-![platform-badge](https://img.shields.io/badge/platform-Obsidian-lightgrey?logo=obsidian)
-
-![compatible-badge](https://img.shields.io/badge/compatible_with-DataviewJS-blue)
-
-![lang-badge](https://img.shields.io/badge/lang-RU--EN-blueviolet)
-
-![license-badge](https://img.shields.io/badge/license-MIT-green)
-
-![last-update](https://img.shields.io/badge/last_update-June_2025-orange)
-
-![obsidian-version](https://img.shields.io/badge/obsidian-v1.6+-purple)
-![dataview-version](https://img.shields.io/badge/dataview-v0.5.64%2B-blue)
-
-![install-manual](https://img.shields.io/badge/install-manual-orange)
-
+![version-badge](https://img.shields.io/badge/version-0.0.1-blue) ![license-badge](https://img.shields.io/badge/license-MIT-green) ![last-update](https://img.shields.io/badge/last_update-June_2025-orange)
 
 ---
 
-## 📸 **Пример интерфейса**
+## 📸 **Interface Example**
 
 ![[EXAMPLE interface 1.png]]
 
-<!-- Для GitHub (замени путь при необходимости) -->
+<!-- For GitHub (replace path if necessary) -->
 <!-- ![Interface screenshot](assets/interface-example-1.png) -->
 
 ---
 
-## ✨ **Что умеет скрипт**
+## ✨ **What the script can do**
 
-| Возможность                  | Описание                                          |
+| Feature                      | Description                                       |
 | ---------------------------- | ------------------------------------------------- |
-| 🎴 Карточки                  | Визуальное представление записей в виде карточек  |
-| 🔍 Фильтрация и сортировка   | По типу, папке, полям                             |
-| 🧠 Гибкая логика секций      | Определяйте, в какую секцию попадёт карточка      |
-| 🎨 Кастомизация              | Стили, эмодзи, порядок, собственные CSS-классы    |
-| 📈 Прогресс, рейтинг, значки | Визуальные метрики прямо в карточке               |
-| 🖼️ Слайдер изображений      | Переключаемый слайдер с несколькими изображениями |
-| 🔊 Встроенное медиа          | Воспроизведение MP3, MP4, OGG и других форматов   |
-| 🧩 Расширяемость             | Гибкая настройка под любые нужды                  |
-| 💾 Сохранение настроек       | Ваши параметры сохраняются между сессиями         |
+| 🎴 Cards                     | Visual representation of entries as cards         |
+| 🔍 Filtering and sorting      | By type, folder, fields                           |
+| 🧠 Flexible section logic     | Define which section each card belongs to         |
+| 🎨 Customization              | Styles, emojis, order, custom CSS classes         |
+| 📈 Progress, rating, badges   | Visual metrics directly inside the card           |
+| 🖼️ Image slider              | Switchable slider with multiple images            |
+| 🔊 Built-in media             | Playback of MP3, MP4, OGG, and other formats      |
+| 🧩 Expandability              | Flexible configuration for any needs              |
+| 💾 Saving settings            | Your parameters are saved between sessions        |
 
 ---
 
-## 🎥 **Пример с видео**
+## 🎥 **Video Example**
 
 ![[EXAMPLE interface 1.mp4]]
 
 ---
 
-## 📦 **Зависимости**
+## 📦 **Dependencies**
 
-Для корректной работы скрипта **обязательно установите следующие компоненты**:
+To ensure proper operation of the script, **please install the following components**:
 
-1. 🔌 [Dataview](obsidian://show-plugin?id=dataview) — основной движок обработки данных  
-2. 🎛 [Style Settings](obsidian://show-plugin?id=obsidian-style-settings) — для управления стилями темы Minimal.  
-3. 🎨 [Minimal Theme](https://github.com/kepano/obsidian-minimal) — рекомендуемая тема оформления, полностью совместимая со скриптом
+1. 🔌 [Dataview](obsidian://show-plugin?id=dataview) — main data processing engine  
+2. 🎛 [Style Settings](obsidian://show-plugin?id=obsidian-style-settings) — (optional) for managing styles of the Minimal theme  
+3. 🎨 [Minimal Theme](https://github.com/kepano/obsidian-minimal) — (optional) recommended theme, fully compatible with the script
 
-> 💡 Без этих компонентов скрипт может работать некорректно или не отображаться вовсе.
+> 💡 Without these components, the script may not work correctly or may not display at all.
 
 ---
 
-## 🚀 **Как начать пользоваться скриптом?**
+Work in Progress
 
-Готовы начать? Тогда переходите к первой инструкции по настройке:  
-👉 **[[00 Начало|Нажмите здесь, чтобы начать]]**
+## 🚀 **How to start using the script?**
+
+Ready to begin? Then download the archive of my Obsidian vault and start exploring.  
+Use the HUB home page as an entry point to the vault.
+
+## 🚀 Installation
+
+1. Go to the [Releases](https://github.com/yourname/yourrepository/releases) section  
+2. Download the archive with the latest version (for example: `universal-cards-v1.0.0.zip`)  
+3. Unpack the `Obsidian` folder into your Obsidian vault  
+4. Follow the instructions on the HUB home page
