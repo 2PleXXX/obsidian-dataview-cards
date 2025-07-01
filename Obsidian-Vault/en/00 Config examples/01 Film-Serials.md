@@ -14,6 +14,7 @@ obsidianUIMode: preview
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 const config = {
   language: "en",
+  checkVersion: true,
 
   typeFilteringEnabled: true,
   folderKeyword: "assets/YAML folder/",
@@ -21,7 +22,7 @@ const config = {
   typeValue: ["Series", "Film",],
 
   //▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
-  // 02 🪟 MODAL WINDOW SETTINGS
+  // 02 🪟 MODAL WINDOW SETUP
   //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
   modalBehavior: "hold",
 
@@ -62,29 +63,24 @@ const config = {
     { label: "By date", field: "DateFilm", emoji: "🗓️" },
     { label: "By duration", field: "Duration", emoji: "🔢" },
     { label: "By rating", field: "Rating", emoji: "📊" },
-    { label: "By symbols length", special: "length", emoji: "🔢" },
     { label: "Random", special: "random", emoji: "♾️" },
   ],
 
   randomSortFields: ["Title", "Genre", "DateFilm", "Duration", "Rating",],
-  defaultSortField: "Title",
-  defaultSortOrder: "asc",
   rememberSort: true,
 
   //▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
   // 07 🔐 FILTERING
   //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
   filtering: {
-    saveToLocalStorage: true,
+    clearTagsWarning: true,
     mode: "byTypes",
     allowedTypes: ["text", "badge", "date", "pageLink", "number", "rating", "progressBar",],
     allowedFields: ["Title", "Genre", "DateFilm", "Duration",],
-    defaultMatchMode: "any",
-    defaultFilterMode: "whitelist",
   },
 
   //▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
-  // 08 🖼 DISPLAYED FIELDS
+  // 08 🖼 FIELD CREATION
   //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
   fields: {
     Poster: {
@@ -237,31 +233,32 @@ const config = {
   ],
 };
 
-//▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+//▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
 // 10 🛠️ SCRIPT INTEGRATION
-//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-const langPath = "scripts/universal-cards-lang.js"; // path to the localization file
-const scriptPath = "scripts/universal-cards-core.js"; // path to the core script
+//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+const langPath = "scripts/universal-cards-lang.js";
+const scriptPath = "scripts/universal-cards-core.js";
 
-// Check if localization file exists
+//▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+// No need to change anything below
+//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+
 const langFile = app.vault.getAbstractFileByPath(langPath);
 if (!langFile || typeof langFile.path !== "string") {
-  dv.paragraph(`❌ Localization file not found: ${langPath}`);
+  dv.paragraph(`❌ Localization file not found or the path is incorrect. Your path: ${langPath}`);
   return;
 }
 const langContent = await app.vault.read(langFile);
 eval(langContent);
 
-// Check if core script exists
 const scriptFile = app.vault.getAbstractFileByPath(scriptPath);
 if (!scriptFile || typeof scriptFile.path !== "string") {
-  dv.paragraph(`❌ Core script not found or invalid path: ${scriptPath}`);
+  dv.paragraph(`❌ Script not found or the path is incorrect. Your path: ${scriptPath}`);
   return;
 }
 const scriptContent = await app.vault.read(scriptFile);
 eval(scriptContent);
 
-// Run functions if they are defined
 if (typeof initializeSectionMatches === "function") {
   initializeSectionMatches(config);
 }

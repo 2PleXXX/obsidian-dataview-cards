@@ -3,96 +3,117 @@ cssclasses:
   - hide-properties
 obsidianUIMode: preview
 ---
-
-
 # Getting Started with the Script
 
-To get started with the script, please install the following dependencies:
+To get started, make sure the following dependencies are installed:
 
-1. Plugin: [Dataview](obsidian://show-plugin?id=dataview)  
-2. Plugin: [Style Settings](obsidian://show-plugin?id=obsidian-style-settings)  
+1. Plugin: [Dataview](obsidian://show-plugin?id=dataview)
+2. Plugin: [Style Settings](obsidian://show-plugin?id=obsidian-style-settings)
 3. Theme: [Minimal Theme](https://github.com/kepano/obsidian-minimal) (Optional. See STEP 4 below)
 
 ---
 
-## 🧭 **STEP 1: Introduction to the Script**
+## 🧭 **STEP 1: Explore the Script**
 
 Want to understand how the script works and what it can do? Start with these materials:
 
-- 📄 [[00 Script Features]] — a detailed description of the features  
-- 👁️ [[01 Visual Overview of Features]] — a visual example in action  
-- 👁️ [[04 Card Appearance in Different Themes]] — a comparison of how cards look in different themes  
+- 📄 [[00 Script Capabilities]] — detailed description of the capabilities.
+- 👁️ [[01 Visual Feature Overview]] — a clear example in action.
+- 👁️ [[04 Card Appearance Across Themes]] — a comparison of how cards look across themes.
 
 ---
 
 ## 🧩 **STEP 2: Dataview Settings**
 
-Go to the settings of the **Dataview** plugin and enable the following options:
+Go to the **Dataview** plugin settings and enable the following options:
 
-- Enable JavaScript queries  
-- Enable inline JavaScript queries  
+- Enable JavaScript queries
+- Enable inline JavaScript queries
 
 ---
 
-## 🎨 **STEP 3: Style Settings Configuration**
+## 🎨 **STEP 3: Style Settings (OPTIONAL)**
 
 This step is optional.  
-When using the zoom feature built into the script, you might notice the card "jumps" behind the enlarged image.  
-If this bothers you, follow the steps described below.
+When using the zoom feature built into the script, you may notice that the card behind the zoomed image "jumps." If this bothers you, follow the steps below.
 
-In the **Style Settings** plugin settings, find the **"Images"** section:  
+In the **Style Settings** plugin settings, locate the **"Images"** section:  
 ![[assets/Screenshots/Style Settings 1.png]]  
 Disable the `"Disable image zoom"` option.
 
-> ⚠️ If you **do not use the Minimal theme**, you can skip this step. See more details in the next step.
+> ⚠️ If you’re **not using the Minimal theme**, you can skip this step. More details in the next step.
 
 ---
 
-## 🖌️ **STEP 4: Choosing the Style**
+## 🖌️ **STEP 4: Choose a Theme**
 
-You can:  
-- Install the **Minimal** theme and use `[CARDS]universal-dataview-cards.css` **or**  
-- Use an alternative CSS file:  
-  `[CARDS]universal-dataview-cards(Without Theme).css`
+You can either:
 
-However, with the second option, the appearance of the cards may be distorted, and compatibility with other themes is not guaranteed.  
+- Use the **Minimal** theme, and get full visual support, **or**
+- Use another theme of your choice.
+
+However, with other themes, the cards may not appear exactly as shown in the screenshots, and some features might not be fully compatible.  
 Feel free to experiment! 🧪
 
 ---
 
-## **STEP 5: Required CSS Class**
+## **STEP 5: Source Mode**
 
-Before you start creating your config (using a DataviewJS block), you **must use the following class**:
+Many examples are shown in **Source mode**.  
+You can quickly access it via the three-dot menu in the top right corner (see screenshot).
+
+![[Source mode.png]]
+
+---
+
+## **STEP 6: Required Class**
+
+Before creating your own config (using a dataviewjs block), you **must** include the following class:
 
 ```css
 ---
 cssclasses:
-  - cards
+  - cards
 ---
 ```
 
-For a more polished look, I recommend adding these classes:
+For improved visuals, you can also add these additional classes:
 
 ```css
 ---
 cssclasses:
-  - cards
-  - cards-cols-6
-  - table-max
-  - cards-align-bottom
-  - cards-2-3
-  - hide-properties
+  - cards
+  - cards-cols-6
+  - table-max
+  - cards-align-bottom
+  - cards-2-3
+  - hide-properties
 ---
 ```
 
-You can find more detailed information about classes and cards on the [Minimal Theme Author's Website](https://minimal.guide/features/helper-classes)
+More information about classes and cards can be found on the [Minimal theme author’s site](https://minimal.guide/features/helper-classes).
+
+### 🛠 How to Add `cssclasses` to a Note
+
+To add custom CSS classes to a note, follow these steps:
+
+1. At the very top of the note, type three dashes:
+```markdown
+---
+```
+
+2. In the YAML block that opens, add the `cssclasses` property and the values listed above.
+
+📽️ See demo:  
+![[CreateProperties.mp4]]
 
 ---
-## 💡 **STEP 6: Use Only the `dataviewjs` Block**
 
-The entire script — from start to finish — **must be written inside a `dataviewjs` block**.
+## 💡 **STEP 7: Use Only the `dataviewjs` Block**
 
-The block starts with three backticks, followed by `dataviewjs`, and ends with three backticks.
+The entire script — from start to finish — **must be placed inside a `dataviewjs` block**.
+
+A block starts with three backticks and the word `dataviewjs`, and ends with three backticks.
 
 Example:
 
@@ -101,72 +122,68 @@ Example:
 ```
 
 ---
-## 🧩 **STEP 7: Why This Block Order?**
 
-When reading and configuring all 11 configuration blocks, you may notice that the order seems odd.  
-You might wonder:
+## 🧩 **STEP 8: Why This Block Order?**
 
-> 🧐 "Why do I need to change something in block 8 first, and then suddenly go back to block 4?"
+When reviewing and setting up all 11 configuration blocks, you might wonder:
 
-Here's the explanation:
+> 🧐 “Why do I need to configure something in block 8, and then suddenly jump back to block 4?”
 
-I intentionally arranged the blocks so that **everything that can become large** is placed **at the very end**.  
-For example: lists of fields, filters, sorting buttons — all of these can take dozens of lines.  
-If such large sections were at the top, you would have to scroll through them each time just to change something simple — like the script language or the path to YAML files.
+Here’s why:
 
-This approach makes working with the config **much more convenient**:  
-You configure the general parameters first, and only after that — the parts that may grow or scale.
+The blocks are intentionally ordered so that **everything that can grow large** is placed **at the very end**.  
+For example: lists of fields, filters, sort buttons — these can take up dozens of lines.  
+If such bulky sections were at the top, you’d have to scroll past them every time just to change a simple setting like the script’s language or folder path.
+
+This structure makes working with the config **much more convenient**: start with general settings, then handle the complex, scalable parts later.
 
 ---
-## 📁 **STEP 8: Where Are the Files Located?**
 
-🔧 All core script files are located **inside your Obsidian vault**. Here's where you can find them:
+## 📁 **STEP 9: Where Are the Files?**
 
-- 🧠 **Core script**  
+🔧 All main files of the script are located **inside your Obsidian vault**. Here’s where to find them:
+
+- 🧠 **Core Script File**  
     `universal-cards-core.js`  
     👉 Path: `.obsidian/scripts/`  
-    _(To access the file, open your vault via File Explorer or Finder)_
+    _(To locate the file, open your vault folder using Explorer or Finder)_
     
-- 🌐 **Localization file**  
+- 🌐 **Language File**  
     `universal-cards-lang.js`  
     👉 Located **next to the core**, in the same folder
     
-- 🎨 **Main style file**  
+- 🎨 **Main Style File**  
     `[CARDS]universal-dataview-cards.css`  
     👉 Path: `.obsidian/snippets/`
     
-- 🧾 **Alternative style (without theme binding)**  
-    `[CARDS]universal-dataview-cards(Without Theme).css`  
-    👉 Also located in `.obsidian/snippets/`
-    
 
 ---
 
-## 🧩 **STEP 9: Important Information About the Script**
+## 🧩 **STEP 10: Important Notes About the Script**
 
 > ⚙️ **The script is reusable.**  
-> It is designed to use a single shared core for all configurations.
+> It’s designed to use a single shared core for all configurations.
 
 **Key points:**
 
-- 📁 **Single core** — you use one shared `.js` file for all use cases
+- 📁 **The core file is universal** — you use one `.js` file for all configurations.
     
-- 🗂️ **Multiple configuration notes are allowed** — each with its own `DataviewJS` block and individual settings
+- 🗂️ **You can have multiple config notes** — each with its own `dataviewjs` block and unique settings.
     
-- ⛔ **Only one DataviewJS block per note** should call this script (to avoid conflicts)
+- ⛔ **Only one DataviewJS block per note** — to avoid conflicts, don’t use multiple calls in the same file.
     
 
 ---
 
-## **STEP 10:**
+## **STEP 11:**
 
-![[Reading skills.gif]]
+![[Навыки чтения.gif]]
 
-> [[00 GIF Author|GIF Author]]
+> [[00 GIF Author|GIF author]]
 
-In future guides, I will explain in detail how everything works.  
-If you read carefully, you should have no issues. :)
+Future guides will walk you through everything in great detail.  
+As long as you read carefully, you shouldn’t run into any issues. 🙂
 
 ---
 
-_**After completing all the steps, proceed to [[01 Roadmap|Configuration Blocks]] for a detailed exploration of the features.**_
+_**Once you’ve completed all the steps, proceed to [[01 Roadmap|Configuration Blocks]] to explore all the features in depth.**_
