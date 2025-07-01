@@ -1,0 +1,15 @@
+{
+  "cssTheme": "Minimal",
+  "enabledCssSnippets": [
+    "[CARDS]NewCardsView",
+    "hide-properties",
+    "Новые стили",
+    "zzz_Новые стили",
+    "CARDS_Without_theme",
+    "[dashboard]Homepage",
+    "[CARDS]universal-dataview-cards(Without Theme) original",
+    "[CARDS]universal-dataview-cards"
+  ],
+  "theme": "obsidian",
+  "accentColor": ""
+}

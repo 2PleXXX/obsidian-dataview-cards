@@ -1,0 +1,241 @@
+{
+  "main": {
+    "id": "824c5f115704da2f",
+    "type": "split",
+    "children": [
+      {
+        "id": "d97a29b2153acace",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "6b999921fafb49f7",
+            "type": "leaf",
+            "pinned": true,
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "00 HUB.md",
+                "mode": "preview",
+                "source": false
+              },
+              "pinned": true,
+              "icon": "lucide-file",
+              "title": "00 HUB"
+            }
+          },
+          {
+            "id": "4405201f6d94d83c",
+            "type": "leaf",
+            "pinned": true,
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "README.md",
+                "mode": "source",
+                "source": false
+              },
+              "pinned": true,
+              "icon": "lucide-file",
+              "title": "README"
+            }
+          }
+        ],
+        "currentTab": 1
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "8876b3bbc37cc130",
+    "type": "split",
+    "children": [
+      {
+        "id": "fdd7ea988106b551",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "0bff73eb6bfaf004",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Файловый менеджер"
+            }
+          },
+          {
+            "id": "ed4ed4c9b781f7cd",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Поиск"
+            }
+          },
+          {
+            "id": "1c2e48d51900b2f1",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Закладки"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 338.5
+  },
+  "right": {
+    "id": "0dfebf530b89c41d",
+    "type": "split",
+    "children": [
+      {
+        "id": "a1d780851ecd5485",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "d8052bc4adc85851",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "ru/00 Начало.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks for 00 Начало"
+            }
+          },
+          {
+            "id": "9f8309967ea1b9cc",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "Demo cards/Руководство/Решение возможных проблем.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Исходящие ссылки из Решение возможных проблем"
+            }
+          },
+          {
+            "id": "6f8f9dcdaaec0b33",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "41d56c76c4125fd4",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "ru/00 Начало.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline of 00 Начало"
+            }
+          }
+        ],
+        "currentTab": 2
+      }
+    ],
+    "direction": "horizontal",
+    "width": 306.5,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Меню быстрого перехода": false,
+      "graph:Граф": false,
+      "canvas:Создать новый холст": false,
+      "daily-notes:Сегодняшняя заметка": false,
+      "templates:Вставить шаблон": false,
+      "command-palette:Открыть палитру команд": false
+    }
+  },
+  "active": "4405201f6d94d83c",
+  "lastOpenFiles": [
+    "README_RU.md",
+    "00 HUB.md",
+    "ru/00 Примеры конфигураций/03 Всё вместе.md",
+    "assets/YAML folder/003_Flow Construct.md",
+    "assets/General attachments/03 Video All in one/ssstik.io_1751371398216.mp4",
+    "assets/General attachments/03 Video All in one/ssstik.io_1745824603716.mp4",
+    "assets/General attachments/03 Video All in one/ssstik.io_1745824688822.mp4",
+    "Как правильно обновлять версии.md",
+    "CHANGELOG.md",
+    "ru/00 Примеры конфигураций/01 Фильмы-Сериалы.md",
+    "ru/00 Примеры конфигураций/02 Книги.md",
+    "ru/01 Путеводитель.md",
+    "ru/01 Руководство/03 Помощь и рекомендации/06 Как скрыть Свойства.md",
+    "ru/01 Руководство/03 Помощь и рекомендации/07 Как обновить скрипт.md",
+    "Pasted image 20250701140758.png",
+    "assets/Screenshots/Download raw file.png",
+    "assets/Screenshots/Check Version.png",
+    "ru/00 Начало.md",
+    "assets/YAML folder/003_Midnight Collapse.md",
+    "assets/YAML folder/003_Voltage Bloom.md",
+    "ru/01 Руководство/02 Возможности скрипта/00 Функционал скрипта.md",
+    "Плюсы и минусы скрипта на данный момент.md",
+    "# Вводная информация.txt",
+    "scripts/universal-cards-core.js",
+    "assets/YAML folder/003_Quantum Ashes.md",
+    "assets/YAML folder/003_Azure Feedback.md",
+    "ru/01 Руководство/02 Возможности скрипта/02 Типы полей.md",
+    "Какая защита уже стоит.md",
+    "ru/01 Руководство/03 Помощь и рекомендации/08 Связь с автором.md",
+    "Untitled.md",
+    "Untitled 1.md",
+    "Trace-20250628T123821.json",
+    "ru/01 Руководство/02 Возможности скрипта/03 Логика секций.md",
+    "assets/YAML folder/003_Hollow Circuit.md",
+    "assets/Screenshots/Source mode.png",
+    "assets/Screenshots/Source Mode.png",
+    "assets/Screenshots/CreateProperties.mp4",
+    "assets/General attachments/The-Art-of-Deathloop-2022-digita.pdf",
+    "assets/General attachments/Umbrella Academy - Apocalypse Suite #2 (2007).cbr",
+    "assets/General attachments/03 Video All in one/ssstik.io_1743280169290.mp4",
+    "en/99 Scrennshots/Навыки чтения.gif",
+    "assets/Screenshots/AUTHOR.png",
+    "assets/Screenshots/KLA1DER.png",
+    "ru/99 Screenshots/Навыки чтения.gif",
+    "assets/Screenshots/Visual overview 3.png",
+    "5 Обучение/1 Работы по обучению/2025 03 Март/Анимация Соника 2/Аниматик Соника 2.canvas",
+    "5 Обучение/1 Работы по обучению/2024 11 Ноябрь/Анимация Немощь/Анимация Немощь.canvas"
+  ]
+}

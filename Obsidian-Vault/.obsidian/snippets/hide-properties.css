@@ -1,0 +1,59 @@
+/* 
+  Этот CSS применяется только к заметкам, где в YAML указано:
+  ---
+  cssclass: hide-properties
+  ---
+*/
+
+/* 🔹 Скрытие имени файла (inline title) — то, что обычно отображается вверху заметки */
+.hide-properties .inline-title {
+  display: none !important;
+}
+
+/* 🔹 Полное скрытие заголовка "Свойства" */
+.hide-properties .metadata-properties-title {
+  display: none !important;
+}
+
+/* 🔹 Полупрозрачный заголовок "Свойства", который появляется при наведении */
+/* (этот блок может быть не нужен, т.к. выше он полностью скрывается) */
+.hide-properties .metadata-properties-title {
+  transition: 500ms;
+  opacity: 0.2;
+  pointer-events: none;
+}
+
+.hide-properties .metadata-container:hover .metadata-properties-title {
+  opacity: 1;
+  color: var(--text-accent);
+  pointer-events: auto;
+}
+
+/* 🔹 Скрытие содержимого метаданных (properties) */
+.hide-properties .metadata-content {
+  /* Плавность появления/исчезновения */
+  transition: 200ms cubic-bezier(0.25, 1, 0.5, 1);
+  transition: opacity 200ms ease, transform 200ms ease;
+
+  /* Эффект скрытия */
+  opacity: 0;
+  height: 0;
+  margin-bottom: -1.8em;
+  pointer-events: none;
+  transform: scale(0.98);
+}
+
+/* 🔹 Показ метаданных при наведении на контейнер */
+.hide-properties .metadata-container:hover .metadata-content {
+  opacity: 1;
+  height: auto;
+  margin-bottom: 0.5em;
+  pointer-events: auto;
+  transition-delay: 100ms;
+  transform: scale(1);
+
+  /* Небольшое оформление при появлении */
+  background: rgba(255, 255, 255, 0.03);
+  padding: 0.5em;
+  border-radius: 0.3em;
+}

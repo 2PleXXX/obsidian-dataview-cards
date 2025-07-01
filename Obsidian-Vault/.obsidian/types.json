@@ -1,0 +1,17 @@
+{
+  "types": {
+    "aliases": "aliases",
+    "cssclasses": "multitext",
+    "tags": "tags",
+    "Poster": "multitext",
+    "DemoDate": "date",
+    "Audio": "multitext",
+    "Video": "multitext",
+    "Rating": "multitext",
+    "Favourite": "multitext",
+    "Badge": "multitext",
+    "Poster2": "multitext",
+    "Ссылка": "multitext",
+    "Моя_Книга": "multitext"
+  }
+}
