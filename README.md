@@ -1,3 +1,5 @@
+**WORK IN PROGRESS**
+
 **English** | **[Русский](README_RU.md)**
 
 # 🎴 **Universal Dataview Cards**
@@ -10,10 +12,7 @@
 
 ## 📸 **Interface Example**
 
-![Interface screenshot](assets/Screenshots/EXAMPLE%20interface%201.png)
-
-<!-- For GitHub (replace path if necessary) -->
-<!-- ![Interface screenshot](assets/interface-example-1.png) -->
+![Interface screenshot](Obsidian-Vault/assets/Screenshots/EXAMPLE%20interface%201.png)
 
 ---
 
@@ -35,7 +34,10 @@
 
 ## 🎥 **Video Example**
 
-![Interface example](assets/Screenshots/EXAMPLE%20interface%201.mp4)
+[![Смотреть демо](https://img.youtube.com/vi/I-n4x_6X_C4/0.jpg)](https://www.youtube.com/watch?v=I-n4x_6X_C4)
+
+▶️ **Нажмите на изображение, чтобы посмотреть видео-демо**
+
 
 ---
 
