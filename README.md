@@ -1,12 +1,12 @@
-**WORK IN PROGRESS**
-
 **English** | **[Русский](README_RU.md)**
-
 # 🎴 **Universal Dataview Cards**
 
-> A multifunctional script for displaying cards in Obsidian, based on DataviewJS, with support for sections, filtering, sorting, media, progress bars, and much more.
+> A powerful script for displaying customizable cards in Obsidian, built with DataviewJS. Includes support for sections, filtering, sorting, embedded media, progress bars, and more.  
+> Fully compatible with any Obsidian theme.
 
-![version-badge](https://img.shields.io/badge/version-0.0.1-blue) ![license-badge](https://img.shields.io/badge/license-MIT-green) ![last-update](https://img.shields.io/badge/last_update-June_2025-orange)
+![version-badge](https://img.shields.io/badge/version-1.0.0-blue)
+![license-badge](https://img.shields.io/badge/license-MIT-green)
+![last-update](https://img.shields.io/badge/last_update-July_2025-orange)
 
 ---
 
@@ -16,53 +16,57 @@
 
 ---
 
-## ✨ **What the script can do**
+## ✨ **Script Features**
 
-| Feature                      | Description                                       |
-| ---------------------------- | ------------------------------------------------- |
-| 🎴 Cards                     | Visual representation of entries as cards         |
-| 🔍 Filtering and sorting      | By type, folder, fields                           |
-| 🧠 Flexible section logic     | Define which section each card belongs to         |
-| 🎨 Customization              | Styles, emojis, order, custom CSS classes         |
-| 📈 Progress, rating, badges   | Visual metrics directly inside the card           |
-| 🖼️ Image slider              | Switchable slider with multiple images            |
-| 🔊 Built-in media             | Playback of MP3, MP4, OGG, and other formats      |
-| 🧩 Expandability              | Flexible configuration for any needs              |
-| 💾 Saving settings            | Your parameters are saved between sessions        |
-
----
-
-## 🎥 **Video Example**
-
-[![Смотреть демо](https://img.youtube.com/vi/I-n4x_6X_C4/0.jpg)](https://www.youtube.com/watch?v=I-n4x_6X_C4)
-
-▶️ **Нажмите на изображение, чтобы посмотреть видео-демо**
-
+| Feature                    | Description                                              |
+|----------------------------|----------------------------------------------------------|
+| 🎴 Card layout              | Visual representation of notes as individual cards       |
+| 🔍 Filtering & sorting      | By type, folder, tags, or custom fields                  |
+| 🧠 Section logic            | Automatically sort cards into different visual sections  |
+| 🎨 Customization            | Emojis, colors, order, custom CSS classes                |
+| 📈 Progress, rating, icons  | Display metrics visually right inside each card          |
+| 🖼️ Image slider             | Switchable gallery inside the card                       |
+| 🔊 Embedded media           | Supports MP3, MP4, OGG, and more                         |
+| 🧩 Extensibility            | Flexible config for any structure or use case            |
+| 💾 Persistent settings      | Configuration is saved between Obsidian sessions         |
 
 ---
 
-## 📦 **Dependencies**
+## 🎥 **Video Demo**
 
-To ensure proper operation of the script, **please install the following components**:
+[![Смотреть демо](Obsidian-Vault/assets/Screenshots/Video_Preview_Interface.png)](https://www.youtube.com/watch?v=I-n4x_6X_C4)
 
-1. 🔌 [Dataview](obsidian://show-plugin?id=dataview) — main data processing engine  
-2. 🎛 [Style Settings](obsidian://show-plugin?id=obsidian-style-settings) — (optional) for managing styles of the Minimal theme  
-3. 🎨 [Minimal Theme](https://github.com/kepano/obsidian-minimal) — (optional) recommended theme, fully compatible with the script
-
-> 💡 Without these components, the script may not work correctly or may not display at all.
+▶️ **Click the image to watch a video demonstration**
 
 ---
 
-Work in Progress
+## 📦 **Required Plugins & Themes**
 
-## 🚀 **How to start using the script?**
+To ensure proper functionality, it's recommended to install the following components:
 
-Ready to begin? Then download the archive of my Obsidian vault and start exploring.  
-Use the HUB home page as an entry point to the vault.
+1. 🔌 [`Dataview`](obsidian://show-plugin?id=dataview) — Required. Powers the data logic behind the cards.
+2. 🎛 [`Style Settings`](obsidian://show-plugin?id=obsidian-style-settings) *(optional)* — For advanced visual customization, especially with the Minimal theme.
+3. 🎨 [`Minimal Theme`](https://github.com/kepano/obsidian-minimal) *(optional)* — A fully compatible theme for the best visual experience.
 
-## 🚀 Installation
+> ⚠️ The script **won't work without `Dataview`**. The other components are optional, but recommended for full styling support.
 
-1. Go to the [Releases](https://github.com/yourname/yourrepository/releases) section  
-2. Download the archive with the latest version (for example: `universal-cards-v1.0.0.zip`)  
-3. Unpack the `Obsidian` folder into your Obsidian vault  
-4. Follow the instructions on the HUB home page
+---
+
+## 🚀 **Getting Started**
+
+To start using the script:
+
+1. Visit the repository:  
+   👉 https://github.com/2PleXXX/obsidian-dataview-cards2
+
+2. Click the **"Code"** button and choose **"Download ZIP"**  
+   Or, if you're using Git:  
+```bash
+git clone https://github.com/2PleXXX/obsidian-dataview-cards2.git
+```
+
+3. Extract the ZIP archive (if downloaded manually).
+
+4. In Obsidian, open the extracted `Obsidian-Vault` folder as a new vault.
+
+5. Explore the built-in home page (HUB) inside the vault.  I recommend starting from the **"Starting Point"** note.
