@@ -1,3 +1,6 @@
+***English documentation is in the writing stage***
+
+
 **English** | **[Русский](README_RU.md)**
 
 # 🎴 **Universal Dataview Cards**
