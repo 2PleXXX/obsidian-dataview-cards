@@ -57,12 +57,12 @@ To ensure proper functionality, it's recommended to install the following compon
 To start using the script:
 
 1. Visit the repository:  
-   👉 https://github.com/2PleXXX/obsidian-dataview-cards2
+   👉 https://github.com/2PleXXX/obsidian-dataview-cards
 
 2. Click the **"Code"** button and choose **"Download ZIP"**  
    Or, if you're using Git:  
 ```bash
-git clone https://github.com/2PleXXX/obsidian-dataview-cards2.git
+git clone https://github.com/2PleXXX/obsidian-dataview-cards.git
 ```
 
 3. Extract the ZIP archive (if downloaded manually).
