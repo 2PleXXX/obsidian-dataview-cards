@@ -44,8 +44,8 @@
 
 To ensure proper functionality, it's recommended to install the following components:
 
-1. 🔌 [`Dataview`](obsidian://show-plugin?id=dataview) — Required. Powers the data logic behind the cards.
-2. 🎛 [`Style Settings`](obsidian://show-plugin?id=obsidian-style-settings) *(optional)* — For advanced visual customization, especially with the Minimal theme.
+1. 🔌 [`Dataview`](https://github.com/blacksmithgu/obsidian-dataview) — Required. Powers the data logic behind the cards.
+2. 🎛 [`Style Settings`](https://github.com/mgmeyers/obsidian-style-settings) *(optional)* — For advanced visual customization, especially with the Minimal theme.
 3. 🎨 [`Minimal Theme`](https://github.com/kepano/obsidian-minimal) *(optional)* — A fully compatible theme for the best visual experience.
 
 > ⚠️ The script **won't work without `Dataview`**. The other components are optional, but recommended for full styling support.
