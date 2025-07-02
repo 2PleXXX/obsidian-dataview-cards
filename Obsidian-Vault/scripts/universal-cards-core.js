@@ -1,10 +1,11 @@
-// ╭────────────────────────────────────────────────────────────╮
-// │  Script by pleXXX                                          │
-// │  💬 Telegram: t.me/sad2plexxx                              │
-// │  🐙 GitHub: https://github.com/2PleXXX                     │
-// │                                                            │
-// │  Designed for Obsidian (Dataview + Minimal)                │
-// ╰────────────────────────────────────────────────────────────╯
+/*
+MIT License | Copyright (c) 2025 Artem (@2PleXXX)
+
+Part of the Obsidian script "universal-cards-core.js"
+
+Author: @2PleXXX
+Repository: https://github.com/2PleXXX/obsidian-dataview-cards
+*/
 
 const SCRIPT_VERSION = "1.0.0";
 
@@ -432,11 +433,11 @@ function runUniversalCards(dv, inputConfig = {}) {
   // 🔄 Checks GitHub for script updates and shows a notice if a newer version is available.
   async function checkForScriptUpdates(dv, t) {
     const VERSION_INFO_URL =
-      "https://raw.githubusercontent.com/2PleXXX/obsidian-dataview-cards2/refs/heads/main/version.json"; // сравнение версий
+      "https://raw.githubusercontent.com/2PleXXX/obsidian-dataview-cards/refs/heads/main/version.json";
     const GITHUB_REPOSITORY =
-      "https://github.com/2PleXXX/obsidian-dataview-cards2"; // ссылка на репозиторий
+      "https://github.com/2PleXXX/obsidian-dataview-cards";
     const SCRIPT_FILE_URL =
-      "https://github.com/2PleXXX/obsidian-dataview-cards2/blob/main/universal-cards-core.js"; // ссылка на файл скрипта
+      "https://github.com/2PleXXX/obsidian-dataview-cards/blob/main/universal-cards-core.js";
 
     try {
       if (!dv?.container) return;
