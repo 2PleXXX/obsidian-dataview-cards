@@ -70,3 +70,8 @@ git clone https://github.com/2PleXXX/obsidian-dataview-cards2.git
 4. In Obsidian, open the extracted `Obsidian-Vault` folder as a new vault.
 
 5. Explore the built-in home page (HUB) inside the vault.  I recommend starting from the **"Starting Point"** note.
+
+---
+> ℹ️ **Disclaimer**
+>
+> The appearance shown in demo images and videos may differ slightly from the current version of the script, as updates may be released over time.  
