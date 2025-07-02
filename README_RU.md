@@ -53,12 +53,12 @@
 Чтобы начать пользоваться:
 
 1. Зайдите на страницу репозитория:  
-   👉 https://github.com/2PleXXX/obsidian-dataview-cards2
+   👉 https://github.com/2PleXXX/obsidian-dataview-cards
 
 2. Нажми кнопку **"Code"** и выбери **"Download ZIP"**  
    Или, если используете Git:  
 ```bash
-git clone https://github.com/2PleXXX/obsidian-dataview-cards2.git
+git clone https://github.com/2PleXXX/obsidian-dataview-cards.git
 ```
 
 3. Распакуй ZIP-архив (если скачивали вручную).
