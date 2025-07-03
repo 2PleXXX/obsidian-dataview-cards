@@ -1043,9 +1043,11 @@ function runUniversalCards(dv, inputConfig = {}) {
 
   // 💾 Builds a unique localStorage key for slider state based on vault and file path.
   const getSliderStorageKey = (page, key) => {
-    const pagePath = page?.file?.path || "unknown";
-    const vaultName = app.vault.getName(); // ✅ название текущего Vault
-    return `universal-slider-${vaultName}-${pagePath}-${key}`;
+    const pagePath = page?.file?.path || "unknown"; // путь до карточки
+    const vaultName = app.vault.getName();
+    const configPath = dv.current()?.file?.path || "unknown-config"; // путь до скрипта (конфига)
+
+    return `universal-slider-${vaultName}-${configPath}::${pagePath}::${key}`;
   };
 
   // 💽 Stores current slider index in localStorage for persistence.
@@ -1114,7 +1116,12 @@ function runUniversalCards(dv, inputConfig = {}) {
 
     const modal = document.createElement("div");
     const path = dv.current()?.file?.path || "default";
-    const modalId = `universal-modal-${path.replace(/[^\w-]/g, "_")}`;
+    const vaultName = app.vault.getName();
+    const modalId = `universal-modal-${vaultName.replace(
+      /[^\w-]/g,
+      "_"
+    )}__${path.replace(/[^\w-]/g, "_")}`;
+
     modal.id = modalId;
     modal.className = resolveCssClass(
       config.modalStyleClasses?.modalClass,
@@ -1147,7 +1154,12 @@ function runUniversalCards(dv, inputConfig = {}) {
   // 🌄 Shows modal with image once it is loaded.
   const showModal = (src, config) => {
     const path = dv.current()?.file?.path || "default";
-    const modalId = `universal-modal-${path.replace(/[^\w-]/g, "_")}`;
+    const vaultName = app.vault.getName();
+    const modalId = `universal-modal-${vaultName.replace(
+      /[^\w-]/g,
+      "_"
+    )}__${path.replace(/[^\w-]/g, "_")}`;
+
     const modal = document.getElementById(modalId);
     const img = modal?.querySelector("img");
 
@@ -1178,7 +1190,12 @@ function runUniversalCards(dv, inputConfig = {}) {
 
             const onMouseUp = () => {
               const path = dv.current()?.file?.path || "default";
-              const modalId = `universal-modal-${path.replace(/[^\w-]/g, "_")}`;
+              const vaultName = app.vault.getName();
+              const modalId = `universal-modal-${vaultName.replace(
+                /[^\w-]/g,
+                "_"
+              )}__${path.replace(/[^\w-]/g, "_")}`;
+
               const modal = document.getElementById(modalId);
               if (modal) modal.style.display = "none";
 

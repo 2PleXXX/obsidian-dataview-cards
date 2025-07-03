@@ -177,7 +177,7 @@ This structure makes working with the config **much more convenient**: start wit
 
 ## **STEP 11:**
 
-![[Навыки чтения.gif]]
+![[Reading skills.gif]]
 
 > [[00 GIF Author|GIF author]]
 
