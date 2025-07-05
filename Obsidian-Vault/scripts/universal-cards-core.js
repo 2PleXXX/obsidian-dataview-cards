@@ -7,7 +7,7 @@ Author: @2PleXXX
 Repository: https://github.com/2PleXXX/obsidian-dataview-cards
 */
 
-const SCRIPT_VERSION = "0.0.2";
+const SCRIPT_VERSION = "0.1.0";
 
 // === БЛОК 1. 📋 СООТВЕТСТВИЕ СЕКЦИЯМ ===
 
