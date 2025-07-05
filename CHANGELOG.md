@@ -3,9 +3,9 @@ v0.1.0
 - Updated localization
 - Styles updated
 
-Please update all three files to avoid conflicts and problems.
+❗Please update all three files to avoid conflicts and problems.
 
-If you have already changed localization or styles to suit your needs, please save your changes and transfer them to the new files.
+❗If you have already changed localization or styles to suit your needs, please save your changes and transfer them to the new files.
 
 ---
 v0.0.2
