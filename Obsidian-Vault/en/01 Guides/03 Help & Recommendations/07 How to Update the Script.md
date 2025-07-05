@@ -42,5 +42,8 @@ Sometimes you may need to update not only the main script file `universal-cards-
     
 2. Save any manual changes you’ve made to the style or localization files — they may be overwritten during the update.
 
+Find out about the changes here -> [link](https://github.com/2PleXXX/obsidian-dataview-cards/blob/main/CHANGELOG.md)
+
+
 ---
 # 🧭 [[01 Roadmap|Roadmap]] • [[00 HUB|Home Page]] 🏠
