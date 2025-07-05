@@ -271,6 +271,8 @@ window.UNIVERSAL_CARDS_LANG = {
       UPDATE_LINK_LABEL: "Update script",
       // 💥 Error during update check
       UPDATE_CHECK_ERROR: (err) => `Error while checking for updates: ${err}`,
+      // "What's new?" link
+      CHANGELOG_LINK_LABEL: "What's new?",
     },
 
     // === INFO: Informational messages
@@ -550,6 +552,8 @@ window.UNIVERSAL_CARDS_LANG = {
       UPDATE_LINK_LABEL: "Обновить скрипт",
       // 💥 Ошибка во время проверки обновлений
       UPDATE_CHECK_ERROR: (err) => `Ошибка при проверке обновлений: ${err}`,
+      // Ссылка "Что нового?"
+      CHANGELOG_LINK_LABEL: "Что нового?",
     },
 
     // === INFO: Информация
@@ -827,6 +831,8 @@ window.UNIVERSAL_CARDS_LANG = {
       UPDATE_LINK_LABEL: "Оновити скрипт",
       // 💥 Помилка під час перевірки оновлень
       UPDATE_CHECK_ERROR: (err) => `Помилка під час перевірки оновлень: ${err}`,
+      // Посилання «Що нового?»
+      CHANGELOG_LINK_LABEL: "Що нового?",
     },
 
     // === INFO: Інформація

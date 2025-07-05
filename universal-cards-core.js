@@ -7,7 +7,7 @@ Author: @2PleXXX
 Repository: https://github.com/2PleXXX/obsidian-dataview-cards
 */
 
-const SCRIPT_VERSION = "0.1.0";
+const SCRIPT_VERSION = "0.0.2";
 
 // === БЛОК 1. 📋 СООТВЕТСТВИЕ СЕКЦИЯМ ===
 
@@ -438,6 +438,8 @@ function runUniversalCards(dv, inputConfig = {}) {
       "https://github.com/2PleXXX/obsidian-dataview-cards";
     const SCRIPT_FILE_URL =
       "https://github.com/2PleXXX/obsidian-dataview-cards/blob/main/universal-cards-core.js";
+    const CHANGELOG_URL =
+      "https://github.com/2PleXXX/obsidian-dataview-cards/blob/main/CHANGELOG.md";
 
     try {
       if (!dv?.container) return;
@@ -486,7 +488,14 @@ function runUniversalCards(dv, inputConfig = {}) {
           t?.UPDATES?.NEW_VERSION_NOTICE?.(latestVersion) ||
           `New version available: ${latestVersion}`;
         const updateLinkText = t?.UPDATES?.UPDATE_LINK_LABEL || "Update";
-        notice.innerHTML = `🆕 ${updateText} &nbsp; <a href="${SCRIPT_FILE_URL}" target="_blank">${updateLinkText}</a>`;
+        const changelogText = t?.UPDATES?.CHANGELOG_LINK_LABEL || "Что нового?";
+        notice.innerHTML = `
+          🆕 ${updateText} &nbsp; 
+          <a href="${SCRIPT_FILE_URL}" target="_blank">${updateLinkText}</a> 
+          | 
+          <a href="${CHANGELOG_URL}" target="_blank">${changelogText}</a>
+        `;
+
         versionContainer.appendChild(notice);
       }
     } catch (e) {
