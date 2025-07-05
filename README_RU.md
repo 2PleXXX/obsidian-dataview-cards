@@ -7,7 +7,7 @@
 > Многофункциональный скрипт для отображения карточек в Obsidian на базе DataviewJS с поддержкой секций, фильтрации, сортировки, медиа, прогресс-баров и другого функционала.
 > Совместим с любой темой оформления.
 
-![version-badge](https://img.shields.io/badge/version-1.0.0-blue)
+![version-badge](https://img.shields.io/badge/version-0.0.2-blue)
 ![license-badge](https://img.shields.io/badge/license-MIT-green)
 ![last-update](https://img.shields.io/badge/last_update-July_2025-orange)
 

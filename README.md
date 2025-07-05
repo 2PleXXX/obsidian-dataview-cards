@@ -6,7 +6,7 @@
 > A powerful script for displaying customizable cards in Obsidian, built with DataviewJS. Includes support for sections, filtering, sorting, embedded media, progress bars, and more.  
 > Fully compatible with any Obsidian theme.
 
-![version-badge](https://img.shields.io/badge/version-1.0.0-blue)
+![version-badge](https://img.shields.io/badge/version-0.0.2-blue)
 ![license-badge](https://img.shields.io/badge/license-MIT-green)
 ![last-update](https://img.shields.io/badge/last_update-July_2025-orange)
 
