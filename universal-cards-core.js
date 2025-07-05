@@ -7,7 +7,7 @@ Author: @2PleXXX
 Repository: https://github.com/2PleXXX/obsidian-dataview-cards
 */
 
-const SCRIPT_VERSION = "0.0.2";
+const SCRIPT_VERSION = "0.1.0";
 
 // === БЛОК 1. 📋 СООТВЕТСТВИЕ СЕКЦИЯМ ===
 
@@ -3093,16 +3093,39 @@ function runUniversalCards(dv, inputConfig = {}) {
       uiPanel.appendChild(wrapper);
     }
 
-    // Поле поиска
+    // 🔍 Поле поиска с кнопкой очистки
     const searchInput = document.createElement("input");
     searchInput.type = "text";
     searchInput.placeholder = config.searchBox?.placeholderText || "Search...";
     searchInput.className = "universal-search-input";
-    searchInput.value = currentSearchQuery;
+    searchInput.value = currentSearchQuery || "";
+
+    // Обёртка
+    const searchWrapper = document.createElement("div");
+    searchWrapper.className = "universal-search-wrapper";
+
+    // Кнопка очистки
+    const clearBtn = document.createElement("button");
+    clearBtn.className = "universal-search-clear-btn";
+    clearBtn.textContent = "✕";
+
+    // 🔄 Используем локализацию вместо жёсткой строки
+    clearBtn.title = t.UI.SEARCH.CLEAR_BUTTON_TITLE || "Clear";
+
+    // Обработчик очистки
+    clearBtn.onclick = () => {
+      searchInput.value = "";
+      currentSearchQuery = "";
+      clearBtn.style.display = "none";
+      updateCardsOnly();
+    };
+
+    // Обработчик ввода
     searchInput.addEventListener("input", (e) => {
       currentSearchQuery = e.target.value;
+      clearBtn.style.display = currentSearchQuery ? "block" : "none";
       requestAnimationFrame(() => {
-        updateCardsOnly(); // 🔄 Обновляем только таблицу, без сброса панели
+        updateCardsOnly();
       });
     });
 
@@ -3116,9 +3139,14 @@ function runUniversalCards(dv, inputConfig = {}) {
     filterButton.textContent = `🔎 ${t.UI.FILTER.BUTTON_LABEL}`;
     filterButton.onclick = () => renderFilterModal(config, renderAll);
 
-    // Добавляем в строку
+    // Добавляем в DOM
+    searchWrapper.appendChild(searchInput);
+    searchWrapper.appendChild(clearBtn);
+
+    clearBtn.style.display = searchInput.value.trim() ? "block" : "none";
+
     searchRow.appendChild(filterButton);
-    searchRow.appendChild(searchInput);
+    searchRow.appendChild(searchWrapper);
 
     // Контейнер для кнопок сортировки
     const sortContainer = document.createElement("div");

@@ -1430,6 +1430,7 @@
   border: 1px solid var(--background-modifier-border);
   border-radius: 6px;
   box-sizing: border-box;
+  padding-right: 2em;
   margin: 0;
   flex: 1;
   background-color: var(--background-secondary);
@@ -1441,6 +1442,31 @@
   outline: none;
   border-color: var(--interactive-accent);
   background-color: var(--background-modifier-hover);
+}
+
+.universal-search-wrapper {
+  position: relative;
+  flex: 1;
+}
+
+.universal-search-clear-btn {
+  all: unset;
+  position: absolute;
+  right: 0.3em;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.9em;
+  padding: 0.2em 0.5em;
+  background-color: var(--background-modifier-hover);
+  color: var(--text-muted);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.universal-search-clear-btn:hover {
+  background-color: var(--background-modifier-active-hover);
+  color: var(--text-accent);
 }
 
 .universal-sort-buttons {

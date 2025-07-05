@@ -196,6 +196,10 @@ window.UNIVERSAL_CARDS_LANG = {
       // ➕ Text for hidden items in list
       MORE_ITEMS: (n) => `+ ${n} more…`,
 
+      SEARCH: {
+        CLEAR_BUTTON_TITLE: "Clear search",
+      },
+
       MEDIA: {
         // ⚠️ file:// links not supported
         FILE_SCHEME_UNSUPPORTED:
@@ -470,6 +474,10 @@ window.UNIVERSAL_CARDS_LANG = {
       // ➕ Текст для скрытых элементов в списке
       MORE_ITEMS: (n) => `+ ещё ${n}…`,
 
+      SEARCH: {
+        CLEAR_BUTTON_TITLE: "Очистить поиск",
+      },
+
       MEDIA: {
         // ⚠️ Встроенные ссылки file:// не поддерживаются
         FILE_SCHEME_UNSUPPORTED:
@@ -742,6 +750,10 @@ window.UNIVERSAL_CARDS_LANG = {
 
       // ➕ Текст для прихованих елементів у списку
       MORE_ITEMS: (n) => `+ ще ${n}…`,
+
+      SEARCH: {
+        CLEAR_BUTTON_TITLE: "Очистити пошук",
+      },
 
       MEDIA: {
         // ⚠️ Вбудовані file:// посилання не підтримуються
