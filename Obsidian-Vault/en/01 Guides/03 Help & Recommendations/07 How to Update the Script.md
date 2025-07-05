@@ -28,4 +28,19 @@ Updating gives you access to new features and bug fixes.
 5. Replace the old file with the downloaded one. It’s recommended to restart Obsidian afterward.
 
 ---
+## ⚠️ IMPORTANT!
+
+Sometimes you may need to update not only the main script file `universal-cards-core.js`, but also additional files, such as:
+
+- the style file `[CARDS]universal-dataview-cards.css`;
+    
+- the localization file `universal-cards-lang.js`.
+
+**Before updating, it is strongly recommended to:**
+
+1. Make a backup of your Obsidian vault;
+    
+2. Save any manual changes you’ve made to the style or localization files — they may be overwritten during the update.
+
+---
 # 🧭 [[01 Roadmap|Roadmap]] • [[00 HUB|Home Page]] 🏠

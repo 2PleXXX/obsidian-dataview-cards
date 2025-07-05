@@ -6,8 +6,6 @@ obsidianUIMode: preview
 ---
 
 # 🧠 en
-- 📘 **README**
-	- [[README]]
 - 🧭 **Guidebook**
 	- [[00 Start|Starting point]]
 	- [[01 Roadmap|Roadmap]]
@@ -17,8 +15,6 @@ obsidianUIMode: preview
 	- [[03 All in one|All in one]]
 
 # 🧠 ru
-- 📘 **README**
-	- [[README_RU]]
 - 🧭 **Путеводитель**
 	- [[00 Начало|Начальная отправная точка]]
 	- [[01 Путеводитель|Общий путеводитель]]

@@ -55,7 +55,7 @@ In such cases:
     
 2. ✅ If restarting doesn't help, **double-check your config and YAML** — there may be a typo, missing parameter, or incorrect field name.
     
-3. 🆘 If the issue persists even after all checks, **contact the [[08 Contact the Author|author]]**.
+3. 🆘 If the issue persists even after all checks, **contact the [[en/01 Guides/03 Help & Recommendations/08 Contact the Author|author]]**.
 
 ---
 
