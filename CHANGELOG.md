@@ -2,6 +2,7 @@ v0.1.0
 - Added the ability to clear the search bar.
 - Updated localization
 - Styles updated
+- Edited documentation
 
 ❗Please update all three files to avoid conflicts and problems.
 
