@@ -141,21 +141,17 @@ This structure makes working with the config **much more convenient**: start wit
 
 ## 📁 **STEP 9: Where Are the Files?**
 
-🔧 All main files of the script are located **inside your Obsidian vault**. Here’s where to find them:
+🔧 All core script files are located **inside your Obsidian vault**. Here’s where to find them:
 
-- 🧠 **Core Script File**  
-    `universal-cards-core.js`  
-    👉 Path: `.obsidian/scripts/`  
-    _(To locate the file, open your vault folder using Explorer or Finder)_
-    
-- 🌐 **Language File**  
-    `universal-cards-lang.js`  
-    👉 Located **next to the core**, in the same folder
-    
-- 🎨 **Main Style File**  
-    `[CARDS]universal-dataview-cards.css`  
+- 🧠 **Script Core** `universal-cards-core.js`  
+    👉 Path: `Vault root folder/scripts/`  
+    _(To access the file, open your vault using File Explorer or Finder)_
+
+- 🌐 **Localization Files** `universal-cards-lang-core.js` and `universal-cards-lang-user.js`  
+    👉 Located **next to the core file**, in the same folder
+
+- 🎨 **CSS Style Files** `[CARDS]A_universal-dataview-cards-core.css` and `[CARDS]Z_universal-dataview-cards-user.css`  
     👉 Path: `.obsidian/snippets/`
-    
 
 ---
 

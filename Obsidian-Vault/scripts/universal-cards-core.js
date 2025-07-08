@@ -7,7 +7,7 @@ Author: @2PleXXX
 Repository: https://github.com/2PleXXX/obsidian-dataview-cards
 */
 
-const SCRIPT_VERSION = "0.1.0";
+const SCRIPT_VERSION = "0.2.0";
 
 // === БЛОК 1. 📋 СООТВЕТСТВИЕ СЕКЦИЯМ ===
 
@@ -416,11 +416,30 @@ function isBlank(val) {
 // 🚀 Main entry point of the script. Initializes config, runs validations, matchers, and rendering logic.
 function runUniversalCards(dv, inputConfig = {}) {
   dv.container.classList.add("universal-cards-root");
+  function mergeDeep(target = {}, source = {}) {
+    for (const key of Object.keys(source)) {
+      if (
+        typeof source[key] === "object" &&
+        source[key] !== null &&
+        !Array.isArray(source[key])
+      ) {
+        target[key] = mergeDeep({ ...(target[key] ?? {}) }, source[key]);
+      } else {
+        target[key] = source[key];
+      }
+    }
+    return target;
+  }
+
   const langCode = inputConfig.language || "en";
-  const t =
-    (window.UNIVERSAL_CARDS_LANG?.[langCode] ||
-      window.UNIVERSAL_CARDS_LANG?.["en"]) ??
-    {};
+
+  const coreLangs = window.UNIVERSAL_CARDS_LANG_CORE ?? {};
+  const userLangs = window.UNIVERSAL_CARDS_LANG_USER ?? {};
+
+  const coreStrings = coreLangs[langCode] ?? coreLangs["en"] ?? {};
+  const userStrings = userLangs[langCode] ?? {};
+
+  const t = mergeDeep({ ...coreStrings }, userStrings);
 
   const isValid = validateConfig(inputConfig, dv, t);
   if (!isValid) return;
@@ -1703,7 +1722,6 @@ function runUniversalCards(dv, inputConfig = {}) {
               }
 
               updateActiveFilters();
-              if (typeof onClose === "function") onClose();
             };
 
             valEl.appendChild(xBtn);
@@ -1747,7 +1765,6 @@ function runUniversalCards(dv, inputConfig = {}) {
               }
 
               updateActiveFilters();
-              if (typeof onClose === "function") onClose();
             };
 
             valEl.appendChild(xBtn);
@@ -1761,7 +1778,7 @@ function runUniversalCards(dv, inputConfig = {}) {
       }
       if (clearAllBtn) {
         clearAllBtn.disabled =
-          !pendingFilterState?.rules?.length && currentTags.length === 0;
+          !cache?.filterState?.rules?.length && currentTags.length === 0;
       }
     };
 
@@ -1828,7 +1845,7 @@ function runUniversalCards(dv, inputConfig = {}) {
 
     const clearTagsWarning = config?.filtering?.clearTagsWarning ?? true;
     clearAllBtn.onclick = () => {
-      if (!pendingFilterState?.rules?.length) return;
+      if (!cache?.filterState?.rules?.length) return;
 
       if (clearTagsWarning) {
         // Открываем подтверждение

@@ -79,7 +79,7 @@ If you want to create a **custom image style preset**, follow these simple steps
 
 1. **Open the CSS file:**
 ```text
-[CARDS] universal-dataview-cards.css
+[CARDS]Z_universal-dataview-cards-user.css
 ```
 
 2. Find the following section (it's near the beginning):

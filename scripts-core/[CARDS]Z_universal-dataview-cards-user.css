@@ -1,0 +1,147 @@
+/*▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀*/
+/* ПОЛЬЗОВАТЕЛЬСКОЕ РЕДАКТИРОВАНИЕ СТИЛЕЙ */
+/* USER-CUSTOMIZED STYLE EDITING          */
+/*▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄*/
+/* ================================================= */
+/* 🖼️ Пресеты для ИЗОБРАЖЕНИЯ В КАРТОЧКАХ           */
+/* 🖼️ IMAGE PRESETS FOR CARDS                      */
+/* ================================================= */
+
+/* Баннер (горизонтальный, адаптивный) */
+/* Banner (horizontal, responsive) */
+.custom-image-banner {
+  width: 100% !important;
+  height: auto !important;
+  max-height: 220px !important;
+  object-fit: cover !important;
+  border-radius: 12px !important;
+  aspect-ratio: 3 / 1 !important;
+}
+
+/* Аватар (круглый, фиксированного размера) */
+/* Avatar (circular, fixed size) */
+.custom-image-avatar-small {
+  width: 64px !important;
+  height: 64px !important;
+  object-fit: cover !important;
+  border-radius: 50% !important;
+}
+
+/* Квадратное изображение (плитка/обложка) */
+/* Square image (tile/cover) */
+.custom-image-square-large {
+  width: 100% !important;
+  max-width: 220px !important;
+  aspect-ratio: 1 / 1 !important;
+  object-fit: cover !important;
+  border-radius: 12px !important;
+}
+
+/* Миниатюра (подходит для галерей или небольших карточек) */
+/* Thumbnail (suitable for galleries or small cards) */
+.custom-image-thumbnail {
+  width: 100% !important;
+  max-width: 120px !important;
+  height: auto !important;
+  object-fit: contain !important;
+  border-radius: 8px !important;
+}
+
+/* Растягиваемое изображение с ограничениями */
+/* Stretchable image with constraints */
+.custom-image-flexible {
+  width: 100% !important;
+  height: auto !important;
+  max-height: 300px !important;
+  object-fit: contain !important;
+  border-radius: 8px !important;
+}
+
+/* ================================================= */
+/* 🏷️ Бейджи                                         */
+/* 🏷️ Badges                                         */
+/* ================================================= */
+
+.universal-badge-item.my-style-glitch {
+  color: red;
+  font-size: 1em;
+}
+
+.universal-badge-item.my-style-cyber {
+  color: green;
+}
+
+.universal-badge-item.my-style-noise {
+  color: yellow;
+}
+
+.universal-badge-item.my-style-experimental {
+  color: orange;
+}
+
+/* ================================================= */
+/* 📊 ПРОГРЕСС-БАР                                   */
+/* 📊 PROGRESS BAR                                   */
+/* ================================================= */
+
+.universal-progress-bar-fill.progress-complete {
+  background-color: #10b981;
+}
+
+.universal-progress-bar-fill.progress-high {
+  background-color: #22c55e;
+}
+
+.universal-progress-bar-fill.progress-good {
+  background-color: #84cc16;
+}
+
+.universal-progress-bar-fill.progress-medium {
+  background-color: #eab308;
+}
+
+.universal-progress-bar-fill.progress-low {
+  background-color: #f97316;
+}
+
+.universal-progress-bar-fill.progress-bad {
+  background-color: #dc2626;
+}
+
+.universal-progress-bar-fill.progress-empty {
+  background-color: #6b7280;
+}
+
+.universal-progress-bar-fill.progress-undefined {
+  background-color: #6b7280;
+}
+
+/* ================================================= */
+/* Секции                                            */
+/* Sections                                          */
+/* ================================================= */
+
+/* ⭐ Избранная секция */
+/* ⭐ Favorite section */
+.universal-favourite summary h3 {
+  color: var(--text-accent);
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  text-shadow: 0 0 4px var(--color-accent);
+}
+
+/* 🌟 Секция с высокой оценкой */
+/* 🌟 Highly rated section */
+.universal-high-rating summary h3 {
+  color: var(--text-accent);
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  text-shadow: 0 0 4px var(--color-accent);
+}
+
+/* 🗂 Неотсортированная секция */
+/* 🗂 Unsorted section */
+.universal-unsorted summary h3 {
+  color: var(--text-muted);
+  font-style: italic;
+}

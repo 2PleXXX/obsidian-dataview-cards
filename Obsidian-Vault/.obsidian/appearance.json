@@ -8,7 +8,11 @@
     "CARDS_Without_theme",
     "[dashboard]Homepage",
     "[CARDS]universal-dataview-cards(Without Theme) original",
-    "[CARDS]universal-dataview-cards"
+    "[CARDS]universal-dataview-cards",
+    "[CARDS]universal-dataview-cards-core",
+    "[CARDS]universal-dataview-cards-user",
+    "[CARDS]Z_universal-dataview-cards-user",
+    "[CARDS]A_universal-dataview-cards-core"
   ],
   "theme": "obsidian",
   "accentColor": ""

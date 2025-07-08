@@ -38,7 +38,7 @@ Example:
 ---
 ### 📁 Step 2: Open the CSS file
 
-Open the styles file `[CARDS]universal-dataview-cards.css`
+Open the style file `[CARDS]Z_universal-dataview-cards-user.css`.
 
 ---
 
@@ -53,32 +53,9 @@ Look for this header inside the file:
 ```
 
 ---
-### 📌 Step 4: See example of default and custom style
+### 🎨 Step 4: Add Your Style
 
-Default section header style example:
-
-```css
-/* Default section header style */
-.universal-section summary h3 {
-  margin: 0;
-  font-size: 1.1em;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  gap: 0.5em;
-  color: var(--text-normal);
-  text-shadow: none;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  line-height: 1.4;
-}
-```
-
----
-### 🎨 Step 5: Add your own style
-
-Create your custom style block below the default styles. Example:
+Create your own style block below the default ones. Example:
 
 ```css
 .my-style-favourite summary h3 {
@@ -89,9 +66,17 @@ Create your custom style block below the default styles. Example:
 }
 ```
 
-✅ Important:  
-– Always use the format `.your-class summary h3` — otherwise the style won't apply.  
-– Place your style **after** the default style block, or it may be overridden.
+✅ Important:
+
+- Make sure to use the format `.class-name summary h3` — otherwise the style won’t apply.
+    
+- Since there are two CSS files — `[CARDS]Z_universal-dataview-cards-user.css` and `[CARDS]A_universal-dataview-cards-core.css` — it’s essential that the user styles file is loaded **after** the core file.  
+    In other words, the correct load order should be:
+```text
+First load [CARDS]A_universal-dataview-cards-core.css  
+Then load [CARDS]Z_universal-dataview-cards-user.css
+```
+This is especially important if you decide to rename the files.
 
 ---
 
@@ -104,7 +89,11 @@ Yes. You can change any existing styles — for example, all sections at once. B
 Ask any AI (like ChatGPT). Just describe the effect you want:
 
 ```text
-“Make the section header red and bold with a slight glow.”
+Make the section header red and bold, with a soft glow.
+
+Make sure to use the format `.class-name summary h3`, like this:
+.my-style-favourite summary h3 {
+}
 ```
 
 ---

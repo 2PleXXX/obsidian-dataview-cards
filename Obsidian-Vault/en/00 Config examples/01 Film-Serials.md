@@ -236,20 +236,32 @@ const config = {
 //▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
 // 10 🛠️ SCRIPT INTEGRATION
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-const langPath = "scripts/universal-cards-lang.js";
+const langCorePath = "scripts/universal-cards-lang-core.js";
+const langUserPath = "scripts/universal-cards-lang-user.js";
+
 const scriptPath = "scripts/universal-cards-core.js";
 
 //▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
 // No need to change anything below
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 
-const langFile = app.vault.getAbstractFileByPath(langPath);
-if (!langFile || typeof langFile.path !== "string") {
-  dv.paragraph(`❌ Localization file not found or the path is incorrect. Your path: ${langPath}`);
+const langCoreFile = app.vault.getAbstractFileByPath(langCorePath);
+if (!langCoreFile) {
+  dv.paragraph(`❌ Core localization file not found: ${langCorePath}`);
   return;
 }
-const langContent = await app.vault.read(langFile);
-eval(langContent);
+eval(await app.vault.read(langCoreFile));
+
+if (typeof langUserPath === "string" && langUserPath.trim() !== "") {
+  const langUserFile = app.vault.getAbstractFileByPath(langUserPath);
+  if (langUserFile) {
+    eval(await app.vault.read(langUserFile));
+  } else {
+    window.UNIVERSAL_CARDS_LANG_USER = {};
+  }
+} else {
+  window.UNIVERSAL_CARDS_LANG_USER = {};
+}
 
 const scriptFile = app.vault.getAbstractFileByPath(scriptPath);
 if (!scriptFile || typeof scriptFile.path !== "string") {

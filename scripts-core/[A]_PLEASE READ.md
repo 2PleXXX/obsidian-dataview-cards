@@ -1,0 +1,1 @@
+Please read the CHANGELOG before attempting to update the script --> https://github.com/2PleXXX/obsidian-dataview-cards/blob/main/CHANGELOG.md
