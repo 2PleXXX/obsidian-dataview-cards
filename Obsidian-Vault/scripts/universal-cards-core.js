@@ -456,7 +456,7 @@ function runUniversalCards(dv, inputConfig = {}) {
     const GITHUB_REPOSITORY =
       "https://github.com/2PleXXX/obsidian-dataview-cards";
     const SCRIPT_FILE_URL =
-      "https://github.com/2PleXXX/obsidian-dataview-cards/blob/main/Obsidian-Vault/scripts/universal-cards-core.js";
+      "https://github.com/2PleXXX/obsidian-dataview-cards/tree/main/scripts-core";
     const CHANGELOG_URL =
       "https://github.com/2PleXXX/obsidian-dataview-cards/blob/main/CHANGELOG.md";
 
