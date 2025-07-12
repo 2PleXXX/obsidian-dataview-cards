@@ -1,89 +1,98 @@
-# v0.3.0
+# Changelog
 
-### New
+All notable changes to this project will be documented in this file.
 
-- Added the ability to change page width.
+## [v0.3.0] - 2025-07-12
 
-### Documentation updates
+### Added
 
-The following sections have been updated:
+- Ability to change page width.
 
-- Added "07 How to Change Card Size"
+### Documentation
 
-### Fixes
+- Added section: [07 How to Change Card Size](https://github.com/2PleXXX/obsidian-dataview-cards/blob/main/Obsidian-Vault/en/01%20Guides/02%20Script%20features/07%20How%20to%20Change%20Card%20Size.md)
 
-- Minor bug fixes and improvements.
-
----
-
-# v0.2.0
-
-### Required actions for updating
-
-Replace or add the following files:
-
-1. `universal-cards-core.js` — updated core script.
-2. `universal-cards-lang-core.js` — This file has been renamed. Delete the old version and add the new one.
-3. `universal-cards-lang-user.js` (optional) — A new file for adding your own localization.
-4. `[CARDS]A_universal-dataview-cards-core.css` — This file has been renamed. Delete the old version and add the new one.
-5. `[CARDS]Z_universal-dataview-cards-user.css` (optional) — A new file for custom styles or using preset themes.
-
-### New
-
-- Introduced a clear separation between system and user files.  
-  This allows you to update the core and system styles without risking your custom changes.
-
-### Documentation updates
-
-The following sections have been updated:
-
-- 00 Start
-- 01 Roadmap
-- 00 Config examples
-- 10 SCRIPT INTEGRATION
-- 05 Image presets
-- 06 Section styling
-- 03 How to Translate the Script into Another Language
-- 07 How to Update the Script
-
-### Fixes
+### Fixed
 
 - Minor bug fixes and improvements.
 
-### ❗ Important to read ❗
+---
 
-Please pay special attention to the following documentation sections:
+## [v0.2.0] - 2025-07-09
 
-- **10 SCRIPT INTEGRATION**  
-  Explains how to work with two localization files. The final part of the config file has also been updated — the one responsible for loading language files and the core script.
+⚠️ **Warning:** This version introduces breaking changes.  
+If you update without adjusting your file structure, errors may occur.  
+Make sure to carefully read the [Migration Notes](#migration-notes) section below.
 
-- **00 Config examples**  
-  Demonstrates how the support for custom text is implemented.
+### Added
 
-- **00 Start (STEP 9)**  
-  Provides details about the new CSS files, including the custom styles file `[CARDS]Z_universal-dataview-cards-user.css`.
+- Clear separation between system and user files.  
+  Now it's safe to update the core and styles without losing customizations.
+
+### Changed
+
+- Renamed and restructured core/system/user files:
+  - `universal-cards-lang-core.js` (renamed)
+  - `[CARDS]A_universal-dataview-cards-core.css` (renamed)
+  - `universal-cards-lang-user.js` (new)
+  - `[CARDS]Z_universal-dataview-cards-user.css` (new)
+
+### Documentation
+
+- Updated: Start, Roadmap, Config examples, Script Integration, Image presets, Section styling, Translation, Update instructions.
+
+### Fixed
+
+- Minor bug fixes and improvements.
+
+### Migration Notes
+
+- Please refer to:
+  - **“10 Script Integration”** — loading two language files and new config endings.
+  - **“00 Config Examples”** — how custom texts work.
+  - **“00 Start (Step 9)”** — new CSS structure and custom style file `[CARDS]Z_universal-dataview-cards-user.css`.
 
 ---
 
-# v0.1.0
+## [v0.1.0] - 2025-07-05
 
-- Added the ability to clear the search bar.
-- Updated localization
-- Styles updated
-- Edited documentation
+### Added
 
-❗Please update all three files to avoid conflicts and problems.
+- Ability to clear search bar.
 
-❗If you have already changed localization or styles to suit your needs, please save your changes and transfer them to the new files.
+### Changed
+
+- Localization and styles updated.
+
+### Documentation
+
+- General improvements.
+
+### Migration Notes
+
+- Update all three files to avoid conflicts.
+- If you’ve customized localization/styles, manually migrate them to the new files.
 
 ---
 
-# v0.0.2
+## [v0.0.2] - 2025-07-03
 
-- Fixed minor bugs
+### Fixed
+
+- Minor bug fixes.
 
 ---
 
-# v0.0.1
+## [v0.0.1] - 2025-07-01
 
-- Test version v0.0.1 added
+### Added
+
+- Initial test pre-release.
+
+---
+
+[v0.3.0]: https://github.com/2PleXXX/obsidian-dataview-cards/compare/v0.2.0...v0.3.0
+[v0.2.0]: https://github.com/2PleXXX/obsidian-dataview-cards/compare/v0.1.0...v0.2.0
+[v0.1.0]: https://github.com/2PleXXX/obsidian-dataview-cards/compare/v0.0.2...v0.1.0
+[v0.0.2]: https://github.com/2PleXXX/obsidian-dataview-cards/compare/v0.0.1...v0.0.2
+[v0.0.1]: https://github.com/2PleXXX/obsidian-dataview-cards/releases/tag/v0.0.1

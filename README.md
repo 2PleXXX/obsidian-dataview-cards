@@ -1,5 +1,3 @@
-**Still in the process of testing**
-
 **English** | **[Русский](README_RU.md)**
 
 # 🎴 **Universal Dataview Cards**
@@ -14,6 +12,8 @@
 ---
 
 ## 📸 **Interface Example**
+
+_A simple example of an interface with books and movies_
 
 ![Interface screenshot](Obsidian-Vault/assets/Screenshots/EXAMPLE%20interface%201.png)
 
@@ -40,6 +40,30 @@
 [![Смотреть демо](Obsidian-Vault/assets/Screenshots/Video_Preview_Interface.png)](https://www.youtube.com/watch?v=I-n4x_6X_C4)
 
 ▶️ **Click the image to watch a video demonstration**
+
+---
+
+## **Script Capabilities**
+
+### ⚙️ What the Script Can Do:
+
+The script transforms YAML entries (metadata) in Obsidian into beautiful, interactive cards with filters, sections, and visual components.
+
+### ✨ What Can You Use This Script For?
+
+🎓 Knowledge Base  
+Group content by topic, track progress, add tags and ratings.
+
+📺 Movie & TV Show Catalog  
+Each card represents a movie or series: cover, title, genres, rating, video, and even soundtrack.
+
+📚 Study Plans  
+Visualize completed materials, progress in percentages, grades, and deadlines.
+
+🧠 Idea and Note Collections  
+Use filters and sections to track the status of each idea.
+
+> No matter what you want to track — books, movies, tasks, or people — everything will be clean, structured, and interactive.
 
 ---
 
