@@ -10,7 +10,7 @@ All notable changes to this project will be documented in this file.
 
 ### Documentation
 
-- Added section: [07 How to Change Card Size](https://github.com/2PleXXX/obsidian-dataview-cards/blob/main/Obsidian-Vault/en/01%20Guides/02%20Script%20features/07%20How%20to%20Change%20Card%20Size.md)
+- Added section: 07 How to Change Card Size
 
 ### Fixed
 
