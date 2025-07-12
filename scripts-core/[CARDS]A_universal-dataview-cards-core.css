@@ -1,20 +1,3 @@
-/* Дефолтный стиль заголовка секции */
-/* Default section header style */
-.universal-section summary h3 {
-  margin: 0;
-  font-size: 1.1em;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  gap: 0.5em;
-  color: var(--text-normal);
-  text-shadow: none;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  line-height: 1.4;
-}
-
 /*▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀*/
 /* СТИЛИ ДЛЯ ПРОДВИНУТЫХ ПОЛЬЗОВАТЕЛЕЙ             */
 /* STYLES BELOW ARE FOR ADVANCED USERS             */
@@ -47,6 +30,108 @@
 
 .cards table.dataview tbody > tr > td:not(:last-child):not(:first-child) {
   border-bottom: 1.5px solid var(--background-modifier-border);
+}
+
+/* ================================================= */
+/* 📐 РАСТЯЖЕНИЕ ШИРИНЫ ЗАМЕТКИ ПО КЛАССУ (cssclasses) */
+/* 📐 NOTE WIDTH EXPANSION VIA CSS CLASS (cssclasses) */
+/* ================================================= */
+
+body.wide,
+body.wide-100,
+body.wide-95,
+body.wide-90,
+body.wide-85,
+body.wide-80,
+body.wide-75,
+body.wide-70,
+body.wide-65,
+body.wide-60,
+body.wide-55,
+body.wide-50 {
+  --file-line-width: 100% !important;
+  --line-width: 100% !important;
+}
+
+body .markdown-preview-view.wide .markdown-preview-sizer,
+body .markdown-preview-view.wide-100 .markdown-preview-sizer,
+body .markdown-preview-view.wide-95 .markdown-preview-sizer,
+body .markdown-preview-view.wide-90 .markdown-preview-sizer,
+body .markdown-preview-view.wide-85 .markdown-preview-sizer,
+body .markdown-preview-view.wide-80 .markdown-preview-sizer,
+body .markdown-preview-view.wide-75 .markdown-preview-sizer,
+body .markdown-preview-view.wide-70 .markdown-preview-sizer,
+body .markdown-preview-view.wide-65 .markdown-preview-sizer,
+body .markdown-preview-view.wide-60 .markdown-preview-sizer,
+body .markdown-preview-view.wide-55 .markdown-preview-sizer,
+body .markdown-preview-view.wide-50 .markdown-preview-sizer {
+  margin-inline: auto;
+}
+
+body .markdown-preview-view.wide .markdown-preview-sizer,
+body .markdown-preview-view.wide-100 .markdown-preview-sizer {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+body .markdown-preview-view.wide-95 .markdown-preview-sizer {
+  width: 95% !important;
+  max-width: 95% !important;
+}
+
+body .markdown-preview-view.wide-90 .markdown-preview-sizer {
+  width: 90% !important;
+  max-width: 90% !important;
+}
+
+body .markdown-preview-view.wide-85 .markdown-preview-sizer {
+  width: 85% !important;
+  max-width: 85% !important;
+}
+
+body .markdown-preview-view.wide-80 .markdown-preview-sizer {
+  width: 80% !important;
+  max-width: 80% !important;
+}
+
+body .markdown-preview-view.wide-75 .markdown-preview-sizer {
+  width: 75% !important;
+  max-width: 75% !important;
+}
+
+body .markdown-preview-view.wide-70 .markdown-preview-sizer {
+  width: 70% !important;
+  max-width: 70% !important;
+}
+
+body .markdown-preview-view.wide-65 .markdown-preview-sizer {
+  width: 65% !important;
+  max-width: 65% !important;
+}
+
+body .markdown-preview-view.wide-60 .markdown-preview-sizer {
+  width: 60% !important;
+  max-width: 60% !important;
+}
+
+body .markdown-preview-view.wide-55 .markdown-preview-sizer {
+  width: 55% !important;
+  max-width: 55% !important;
+}
+
+body .markdown-preview-view.wide-50 .markdown-preview-sizer {
+  width: 50% !important;
+  max-width: 50% !important;
+}
+
+/* Line widths ------------------------------------ */
+/* Set overall context to 100% width */
+
+.markdown-preview-view:has(.universal-cards-root-width)
+  .markdown-preview-sizer {
+  max-width: 100% !important;
+  width: 100% !important;
+  margin-inline: auto !important;
 }
 
 /* =============================================== */
@@ -1230,6 +1315,23 @@
   }
 }
 
+/* Дефолтный стиль заголовка секции */
+/* Default section header style */
+.universal-section summary h3 {
+  margin: 0;
+  font-size: 1.1em;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  color: var(--text-normal);
+  text-shadow: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  line-height: 1.4;
+}
+
 .universal-section summary {
   display: flex;
   align-items: center;
@@ -1430,14 +1532,6 @@
 /* ================================================= */
 /* ================================================= */
 /* ЯКОРЬ/Anchor */
-
-/* Line widths ------------------------------------ */
-/* Set overall context to 100% width */
-.markdown-preview-view .markdown-preview-sizer.markdown-preview-sizer {
-  max-width: 100% !important;
-  margin-inline: auto !important;
-  width: 100% !important;
-}
 
 /* MIT License | Copyright (c) Stephan Ango (@kepano) 
 

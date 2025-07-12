@@ -1,7 +1,7 @@
 ---
 cssclasses:
   - hide-properties
-obsidianUIMode:
+obsidianUIMode: preview
 ---
 # **🧭 ROADMAP**
 
@@ -68,6 +68,7 @@ In such cases:
 - [ ] [[04 Card Appearance Across Themes]]
 - [ ] [[05 Image Presets]]
 - [ ] [[06 Section Styling]]
+- [ ] [[07 How to Change Card Size]]
 
 ---
 

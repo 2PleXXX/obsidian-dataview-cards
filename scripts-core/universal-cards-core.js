@@ -7,7 +7,7 @@ Author: @2PleXXX
 Repository: https://github.com/2PleXXX/obsidian-dataview-cards
 */
 
-const SCRIPT_VERSION = "0.2.0";
+const SCRIPT_VERSION = "0.3.0";
 
 // === БЛОК 1. 📋 СООТВЕТСТВИЕ СЕКЦИЯМ ===
 
@@ -416,6 +416,19 @@ function isBlank(val) {
 // 🚀 Main entry point of the script. Initializes config, runs validations, matchers, and rendering logic.
 function runUniversalCards(dv, inputConfig = {}) {
   dv.container.classList.add("universal-cards-root");
+
+  const view = dv.container.closest(".markdown-preview-view");
+
+  if (view) {
+    const hasWideClass = [...view.classList].some(
+      (cls) => cls === "wide" || cls.startsWith("wide-")
+    );
+
+    if (!hasWideClass) {
+      dv.container.classList.add("universal-cards-root-width");
+    }
+  }
+
   function mergeDeep(target = {}, source = {}) {
     for (const key of Object.keys(source)) {
       if (
@@ -456,7 +469,7 @@ function runUniversalCards(dv, inputConfig = {}) {
     const GITHUB_REPOSITORY =
       "https://github.com/2PleXXX/obsidian-dataview-cards";
     const SCRIPT_FILE_URL =
-      "https://github.com/2PleXXX/obsidian-dataview-cards/blob/main/Obsidian-Vault/scripts/universal-cards-core.js";
+      "https://github.com/2PleXXX/obsidian-dataview-cards/tree/main/scripts-core";
     const CHANGELOG_URL =
       "https://github.com/2PleXXX/obsidian-dataview-cards/blob/main/CHANGELOG.md";
 

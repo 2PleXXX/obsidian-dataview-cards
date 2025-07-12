@@ -1,3 +1,21 @@
+# v0.3.0
+
+### New
+
+- Added the ability to change page width.
+
+### Documentation updates
+
+The following sections have been updated:
+
+- Added "07 How to Change Card Size"
+
+### Fixes
+
+- Minor bug fixes and improvements.
+
+---
+
 # v0.2.0
 
 ### Required actions for updating
@@ -19,13 +37,13 @@ Replace or add the following files:
 
 The following sections have been updated:
 
-- 00 Start  
-- 01 Roadmap  
-- 00 Config examples  
-- 10 SCRIPT INTEGRATION  
-- 05 Image presets  
-- 06 Section styling  
-- 03 How to Translate the Script into Another Language  
+- 00 Start
+- 01 Roadmap
+- 00 Config examples
+- 10 SCRIPT INTEGRATION
+- 05 Image presets
+- 06 Section styling
+- 03 How to Translate the Script into Another Language
 - 07 How to Update the Script
 
 ### Fixes
@@ -48,6 +66,7 @@ Please pay special attention to the following documentation sections:
 ---
 
 # v0.1.0
+
 - Added the ability to clear the search bar.
 - Updated localization
 - Styles updated
@@ -60,9 +79,11 @@ Please pay special attention to the following documentation sections:
 ---
 
 # v0.0.2
+
 - Fixed minor bugs
 
 ---
 
 # v0.0.1
+
 - Test version v0.0.1 added
