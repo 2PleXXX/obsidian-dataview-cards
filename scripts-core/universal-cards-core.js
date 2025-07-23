@@ -7,9 +7,7 @@ Author: @2PleXXX
 Repository: https://github.com/2PleXXX/obsidian-dataview-cards
 */
 
-const SCRIPT_VERSION = "0.3.0";
-
-// === БЛОК 1. 📋 СООТВЕТСТВИЕ СЕКЦИЯМ ===
+const SCRIPT_VERSION = "1.0.0";
 
 // ✅ Validates user config for required structure, types, and references.
 // Checks folder, type filtering, fields, sections, sort buttons, and more.
@@ -286,6 +284,7 @@ function validateConfig(config, dv, t) {
 }
 
 // 📁 Checks whether a file path starts with the specified folder keyword.
+// Normalizes paths for case-insensitive comparison and slashes.
 function isInFolder(filePath, folderKeyword) {
   if (!filePath || !folderKeyword) return false;
 
@@ -297,6 +296,7 @@ function isInFolder(filePath, folderKeyword) {
 }
 
 // 🧠 Attaches .match functions to config.sections using declared factories and arguments.
+// Supports array (legacy) or object (modern) matchArgs.
 function initializeSectionMatches(config) {
   for (const section of config.sections) {
     const factoryName = section.matchFactory;
@@ -404,7 +404,8 @@ const matchFactories = {
   },
 };
 
-// 🚫 Checks if a value is considered "blank": null, empty string, or empty array.
+// 🚫 Checks if a value is considered "blank": null, empty string, or empty array of empty strings.
+// Used to detect missing or undefined values in YAML fields.
 function isBlank(val) {
   return (
     val == null ||
@@ -414,6 +415,7 @@ function isBlank(val) {
 }
 
 // 🚀 Main entry point of the script. Initializes config, runs validations, matchers, and rendering logic.
+// Sets up translations, filtering, sorting, caching, modals, and card rendering.
 function runUniversalCards(dv, inputConfig = {}) {
   dv.container.classList.add("universal-cards-root");
 
@@ -429,6 +431,8 @@ function runUniversalCards(dv, inputConfig = {}) {
     }
   }
 
+  // 🔁 Recursively merges two objects, preserving nested structure.
+  // Used to combine core and user translation dictionaries.
   function mergeDeep(target = {}, source = {}) {
     for (const key of Object.keys(source)) {
       if (
@@ -462,7 +466,8 @@ function runUniversalCards(dv, inputConfig = {}) {
     timestamp: 0,
   };
 
-  // 🔄 Checks GitHub for script updates and shows a notice if a newer version is available.
+  // 🆕 Checks GitHub for script updates and displays a version notice if a newer version is available.
+  // Caches results temporarily and inserts version info into the DOM.
   async function checkForScriptUpdates(dv, t) {
     const VERSION_INFO_URL =
       "https://raw.githubusercontent.com/2PleXXX/obsidian-dataview-cards/refs/heads/main/version.json";
@@ -539,7 +544,8 @@ function runUniversalCards(dv, inputConfig = {}) {
     }
   }
 
-  // 🔢 Compares two version strings ("1.2.3" style). Returns -1, 0, or 1.
+  // 🔢 Compares two semantic version strings (e.g., "1.2.3").
+  // Returns -1 if a < b, 1 if a > b, or 0 if equal.
   function compareVersions(a, b) {
     const pa = a.split(".").map(Number);
     const pb = b.split(".").map(Number);
@@ -552,13 +558,8 @@ function runUniversalCards(dv, inputConfig = {}) {
 
   const config = inputConfig;
 
-  // Проверка на ошибки
-  if (!validateConfig(config, dv)) return; // ⛔ мягкая остановка
-
-  // ✅ Подключаем матч-функции для всех секций
   initializeSectionMatches(config);
 
-  // ➕ Инициализация .match для unsorted вручную:
   const unsortedSection = config.sections.find((s) => s.id === "unsorted");
   if (unsortedSection) {
     unsortedSection.match = (page) => {
@@ -570,7 +571,6 @@ function runUniversalCards(dv, inputConfig = {}) {
     };
   }
 
-  // === ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ СОСТОЯНИЯ ===
   let currentSortField =
     config.sortButtons?.[0]?.field ||
     config.sortButtons?.[0]?.special ||
@@ -579,36 +579,31 @@ function runUniversalCards(dv, inputConfig = {}) {
 
   let currentSearchQuery = "";
 
-  // === БЛОК 2. 🔧 УТИЛИТЫ ===
-
-  // 🔍 Checks if a page matches config.typeField and config.typeValue criteria.
+  // ✅ Checks if a page matches the configured type filter.
+  // Returns true if page[config.typeField] matches any value in config.typeValue.
   function matchesTypeFilter(page, config) {
     if (!config.typeFilteringEnabled) return true;
 
     const pageVal = page[config.typeField];
 
-    // Если поле отсутствует — исключаем карточку
     if (pageVal === undefined || pageVal === null) return false;
 
-    // Преобразуем config.typeValue в массив строк (в нижнем регистре)
     const expectedValues = Array.isArray(config.typeValue)
       ? config.typeValue.map((v) => String(v).toLowerCase())
       : [String(config.typeValue).toLowerCase()];
 
-    // Преобразуем YAML-значение в массив строк
     const actualValues = Array.isArray(pageVal)
       ? pageVal.map((v) => String(v).toLowerCase())
       : [String(pageVal).toLowerCase()];
 
-    // Проверяем: есть ли хотя бы одно совпадение
     return expectedValues.some((val) => actualValues.includes(val));
   }
 
-  // 🧼 Normalizes a value into an array of clean strings. Accepts strings, arrays, or pageLinks.
-  const getCleanedStringList = (val) => {
+  // 🧼 Normalizes input into an array of trimmed strings.
+  // Handles strings, arrays, Obsidian links, and line- or comma-separated values.
+  function getCleanedStringList(val) {
     if (!val) return [];
 
-    // Если это массив - обрабатываем каждый элемент
     if (Array.isArray(val)) {
       return val
         .filter((item) => item != null && item !== "")
@@ -616,7 +611,6 @@ function runUniversalCards(dv, inputConfig = {}) {
           if (typeof item === "string") {
             return item.trim();
           }
-          // Если это объект с путем (иногда Obsidian возвращает такие)
           if (typeof item === "object" && item?.path) {
             return item.path;
           }
@@ -625,14 +619,10 @@ function runUniversalCards(dv, inputConfig = {}) {
         .filter((item) => item !== "");
     }
 
-    // Если это строка
     if (typeof val === "string") {
       const trimmed = val.trim();
       if (trimmed === "") return [];
 
-      // Проверяем паттерны, которые указывают на множественные элементы:
-      // 1. Есть запятая вне квадратных скобок Obsidian
-      // 2. Есть переносы строк
       const hasMultipleItems =
         trimmed.includes("\n") ||
         (trimmed.includes(",") &&
@@ -640,7 +630,6 @@ function runUniversalCards(dv, inputConfig = {}) {
           !trimmed.startsWith("![](")); // <-- markdown image/audio/video
 
       if (hasMultipleItems) {
-        // Разбиваем по запятым или переносам строк
         const delimiter = trimmed.includes("\n") ? "\n" : ",";
         return trimmed
           .split(delimiter)
@@ -648,39 +637,33 @@ function runUniversalCards(dv, inputConfig = {}) {
           .filter((item) => item !== "");
       }
 
-      // Иначе это одиночный элемент
       return [trimmed];
     }
 
-    // Если это объект с путем
     if (typeof val === "object" && val?.path) {
       return [val.path];
     }
 
     return [];
-  };
+  }
 
-  // Вспомогательная функция для определения, является ли строка одиночной ссылкой Obsidian
-  const isObsidianLinkOnly = (str) => {
-    // Убираем пробелы и проверяем паттерны
+  // 🔗 Checks if a string is a single Obsidian-style link (e.g., [[Page]] or ![[Image]]).
+  // Ignores strings with multiple links or additional content.
+  function isObsidianLinkOnly(str) {
     const trimmed = str.trim();
 
-    // Если строка начинается и заканчивается как ссылка Obsidian
     if (trimmed.startsWith("![[") && trimmed.endsWith("]]")) {
-      // Проверяем, что это действительно одна ссылка
       const openBrackets = (trimmed.match(/!\[\[/g) || []).length;
       const closeBrackets = (trimmed.match(/\]\]/g) || []).length;
       return openBrackets === 1 && closeBrackets === 1;
     }
 
-    // Если это обычная ссылка Obsidian без !
     if (trimmed.startsWith("[[") && trimmed.endsWith("]]")) {
       const openBrackets = (trimmed.match(/\[\[/g) || []).length;
       const closeBrackets = (trimmed.match(/\]\]/g) || []).length;
       return openBrackets === 1 && closeBrackets === 1;
     }
 
-    // Если это URL
     if (trimmed.startsWith("http://") || trimmed.startsWith("https://")) {
       return (
         !trimmed.includes(",") || trimmed.indexOf(",") > trimmed.indexOf(" ")
@@ -688,22 +671,23 @@ function runUniversalCards(dv, inputConfig = {}) {
     }
 
     return false;
-  };
+  }
 
-  // ➕ Adds prefix and suffix from field definition to the main value.
-  const applyPrefixAndSuffix = (value, def) => {
+  // ➕ Applies optional prefix and suffix from field definition to a value.
+  // Used for display formatting in rendered cards.
+  function applyPrefixAndSuffix(value, def) {
     const prefix = def?.prefix || "";
     const suffix = def?.suffix || "";
     return `${prefix}${value}${suffix}`;
-  };
+  }
 
-  // 📂 Resolves a file from a raw value like string path, embedded link, or object with .path.
-  const resolveFileFromRaw = (raw) => {
+  // 📂 Resolves a file from a raw value: path string, wiki/markdown embed, or object with .path.
+  // Tries multiple strategies including app metadata and fallback search.
+  function resolveFileFromRaw(raw) {
     const currentPath = dv.current()?.file?.path;
 
     let files = app.vault.getFiles();
 
-    // === 1. Если это объект { path: ... }
     if (typeof raw === "object" && raw.path) {
       let foundByPath = files.find((f) => f.path === raw.path);
       if (foundByPath) return foundByPath;
@@ -714,19 +698,15 @@ function runUniversalCards(dv, inputConfig = {}) {
       return foundByPath || foundByName || null;
     }
 
-    // === 2. Если это строка
     if (typeof raw === "string") {
       let cleaned = raw.trim();
 
-      // --- a) wiki-ссылки ![[...]]
       const wikiMatch = cleaned.match(/!\[\[(.*?)\]\]/);
       if (wikiMatch) cleaned = wikiMatch[1];
 
-      // --- b) markdown-ссылки ![](...)
       const markdownMatch = cleaned.match(/!\[\]\((.*?)\)/);
       if (markdownMatch) cleaned = markdownMatch[1];
 
-      // Декодируем URI, убираем \, нормализуем
       try {
         const decoded = decodeURIComponent(cleaned);
         const normalized = decoded.replace(/\\/g, "/");
@@ -740,14 +720,12 @@ function runUniversalCards(dv, inputConfig = {}) {
         console.warn("decodeURIComponent error:", e);
       }
 
-      // Попробуем найти через метаданные Obsidian
       const fromMetadata = app.metadataCache.getFirstLinkpathDest(
         cleaned,
         currentPath
       );
       if (fromMetadata) return fromMetadata;
 
-      // Финальный ручной поиск
       const normalized = cleaned.replace(/\\/g, "/");
       let foundByPath = files.find((f) => f.path === normalized);
       if (foundByPath) return foundByPath;
@@ -759,21 +737,22 @@ function runUniversalCards(dv, inputConfig = {}) {
     }
 
     return null;
-  };
+  }
 
-  // 🆔 Generates a unique ID for a DOM element based on page and field.
-  const getSafeId = (page, key, prefix = "id") => {
+  // 🆔 Generates a unique, DOM-safe ID for an element based on the page and field key.
+  // Uses crypto.randomUUID if available, fallback to Math.random.
+  function getSafeId(page, key, prefix = "id") {
     const base = page?.file?.name?.replace(/[^a-zA-Z0-9_-]/g, "") || "page";
     const unique =
       crypto.randomUUID?.() || Math.random().toString(36).substring(2, 10);
     return `${prefix}-${base}-${key}-${unique}`;
-  };
+  }
 
-  // Для работы с виртуальными полями
+  // 🧠 Adds computed values for virtual fields like backlinkCount, progressBar, and pageLink.
+  // Modifies original page objects to support filters and rendering.
   function enrichVirtualFields(pages, config) {
     for (const page of pages) {
       for (const [fieldName, def] of Object.entries(config.fields)) {
-        // Виртуальное поле: backlinkCount
         if (fieldName === "backlinkCount" && def.type === "number") {
           const filePath = page?.file?.path;
           if (!filePath) {
@@ -783,7 +762,6 @@ function runUniversalCards(dv, inputConfig = {}) {
 
           const backlinks = app.metadataCache.resolvedLinks || {};
 
-          // Считаем ВСЕ ссылки на текущий файл из всего vault-а
           let count = 0;
           for (const [sourcePath, targets] of Object.entries(backlinks)) {
             if (targets && targets[filePath]) {
@@ -794,15 +772,12 @@ function runUniversalCards(dv, inputConfig = {}) {
           page[fieldName] = count;
         }
 
-        // Виртуальные поля pageLink
-
         if (def.type === "pageLink") {
           if (isBlank(page[fieldName])) {
             page[fieldName] = page.file.name.replace(/\.md$/, "");
           }
         }
 
-        // Виртуальные поля progressBar
         if (def.type === "progressBar") {
           const currentKey = def?.config?.currentField;
           const maxKey = def?.config?.maxField;
@@ -817,10 +792,8 @@ function runUniversalCards(dv, inputConfig = {}) {
 
           if (!isNaN(current) && !isNaN(max) && max > 0) {
             const percent = Math.min(100, Math.round((current / max) * 100));
-            // Вставляем значение в page — для фильтров и поиска
             page[fieldName] = percent;
           } else {
-            // Можно вставить пустое значение, чтобы фильтры понимали что поле есть
             page[fieldName] = "";
           }
         }
@@ -828,17 +801,17 @@ function runUniversalCards(dv, inputConfig = {}) {
     }
   }
 
-  // === БЛОК 3. 🧮 СОРТИРОВКА И ФИЛЬТРАЦИЯ ===
-
-  // 🔢 Parses a numeric value safely from strings, arrays, etc.
-  const parseNumberSafe = (val) => {
+  // 🔢 Safely parses a numeric value from strings, arrays, or nulls.
+  // Used for sorting and progress calculations.
+  function parseNumberSafe(val) {
     if (Array.isArray(val)) val = val[0];
     if (typeof val === "string") val = val.replace(",", ".");
     return parseFloat(val);
-  };
+  }
 
-  // ❓ Checks if a numeric value is empty or invalid for sorting.
-  const isBlankNumber = (val) => {
+  // 🚫 Checks if a numeric value is missing, empty, or invalid for sorting.
+  // Accepts strings, arrays, and nulls.
+  function isBlankNumber(val) {
     if (val === undefined || val === null) return true;
     if (Array.isArray(val)) val = val[0];
     if (typeof val === "string") val = val.trim();
@@ -846,10 +819,11 @@ function runUniversalCards(dv, inputConfig = {}) {
 
     const num = parseFloat(val.toString().replace(",", "."));
     return isNaN(num);
-  };
+  }
 
-  // 🔠 Extracts a string value from a field for sorting, with fallbacks.
-  const getSortableValue = (page, field) => {
+  // 🔠 Extracts a string value from a field for sorting purposes.
+  // Falls back to file name if value is missing or unrecognized.
+  function getSortableValue(page, field) {
     let raw = page[field];
     if (Array.isArray(raw)) raw = raw[0];
 
@@ -857,18 +831,17 @@ function runUniversalCards(dv, inputConfig = {}) {
     if (typeof raw === "object" && raw?.path) return raw.path.split("/").pop();
 
     return page.file.name.replace(/\.md$/, "");
-  };
+  }
 
-  // ↕️ Compares two values with blank values pushed to the end of the list.
+  // ↕️ Compares two values using a parser, placing blanks at the end.
+  // Supports ascending or descending sort order.
   function compareWithBlankLast(aVal, bVal, parser, order = "asc") {
-    // Значение считается "пустым", если оно undefined, null, пустая строка или пустой массив
     const isTrulyBlank = (val) =>
       val === undefined ||
       val === null ||
       val === "" ||
       (Array.isArray(val) && val.length === 0);
 
-    // сначала выносим все пустые
     const aIsBlank = isTrulyBlank(aVal);
     const bIsBlank = isTrulyBlank(bVal);
 
@@ -876,17 +849,16 @@ function runUniversalCards(dv, inputConfig = {}) {
     if (aIsBlank) return 1;
     if (bIsBlank) return -1;
 
-    // обрабатываем дальше только если оба НЕ пустые
     const aParsed = parser(aVal);
     const bParsed = parser(bVal);
 
     return order === "asc" ? aParsed - bParsed : bParsed - aParsed;
   }
 
-  // 📊 Sorts pages by current field or special rules (length, random, date, etc.).
-  const sortPages = (pages) => {
+  // 📊 Sorts pages based on current sort field, type, and direction.
+  // Supports special types: rating, number, progressBar, date, random.
+  function sortPages(pages) {
     if (!Array.isArray(config.sortButtons) || config.sortButtons.length === 0) {
-      // fallback: сортируем по имени файла
       return [...pages].sort((a, b) => {
         const aName = (a.file.name || "").toLowerCase();
         const bName = (b.file.name || "").toLowerCase();
@@ -900,12 +872,10 @@ function runUniversalCards(dv, inputConfig = {}) {
 
     if (!sortDef) return [...pages];
 
-    // === СЛУЧАЙНАЯ СОРТИРОВКА
     if (sortDef.special === "random") {
       return [...pages].sort(() => Math.random() - 0.5);
     }
 
-    // === ПОЛУЧАЕМ ДЕФИНИЦИЮ ПОЛЯ ИЗ КОНФИГА
     const fieldDef = config.fields?.[currentSortField];
     const fieldType = fieldDef?.type;
 
@@ -916,7 +886,6 @@ function runUniversalCards(dv, inputConfig = {}) {
       if (Array.isArray(aVal)) aVal = aVal[0];
       if (Array.isArray(bVal)) bVal = bVal[0];
 
-      // === 📊 СОРТИРОВКА ДЛЯ РЕЙТИНГА
       if (fieldType === "rating") {
         return compareWithBlankLast(
           aVal,
@@ -926,7 +895,6 @@ function runUniversalCards(dv, inputConfig = {}) {
         );
       }
 
-      // === 🧮 СОРТИРОВКА ДЛЯ ЧИСЛОВОГО ПОЛЯ
       if (fieldType === "number") {
         if (isBlankNumber(aVal) && isBlankNumber(bVal)) return 0;
         if (isBlankNumber(aVal)) return 1;
@@ -937,7 +905,6 @@ function runUniversalCards(dv, inputConfig = {}) {
         return currentSortOrder === "asc" ? aNum - bNum : bNum - aNum;
       }
 
-      // === 📈 СОРТИРОВКА ДЛЯ ПРОГРЕССА
       if (fieldType === "progressBar") {
         const currentKey = fieldDef?.config?.currentField;
         const maxKey = fieldDef?.config?.maxField;
@@ -964,7 +931,6 @@ function runUniversalCards(dv, inputConfig = {}) {
         return currentSortOrder === "asc" ? aRatio - bRatio : bRatio - aRatio;
       }
 
-      // === 🗓️ ЕСЛИ ТИП ПОЛЯ — DATE
       if (fieldType === "date") {
         const isBlankDate = (val) =>
           val === undefined ||
@@ -973,24 +939,24 @@ function runUniversalCards(dv, inputConfig = {}) {
           isNaN(Date.parse(val));
 
         if (isBlankDate(aVal) && isBlankDate(bVal)) return 0;
-        if (isBlankDate(aVal)) return 1; // всегда в конец
-        if (isBlankDate(bVal)) return -1; // всегда в конец
+        if (isBlankDate(aVal)) return 1;
+        if (isBlankDate(bVal)) return -1;
 
         const aDate = Date.parse(aVal);
         const bDate = Date.parse(bVal);
         return currentSortOrder === "asc" ? aDate - bDate : bDate - aDate;
       }
 
-      // === ОБЫЧНАЯ ТЕКСТОВАЯ СОРТИРОВКА
       const aStr = (getSortableValue(a, currentSortField) || "").toLowerCase();
       const bStr = (getSortableValue(b, currentSortField) || "").toLowerCase();
       const cmp = aStr.localeCompare(bStr);
       return currentSortOrder === "asc" ? cmp : -cmp;
     });
-  };
+  }
 
   // 🧃 Applies advanced filtering rules (whitelist/blacklist logic) to the list of pages.
-  const applyFilters = (pages, config) => {
+  // Supports AND/OR logic, grouped by field.
+  function applyFilters(pages, config) {
     const cache = getCardScriptCache(dv.current()?.file?.path || "default");
     const filterState = cache.filterState;
 
@@ -1004,7 +970,6 @@ function runUniversalCards(dv, inputConfig = {}) {
 
     const logic = filterState.matchLogic || "any";
 
-    // === Группируем правила по полям ===
     const groupedRules = {};
     for (const rule of filterState.rules) {
       if (!groupedRules[rule.field]) {
@@ -1035,18 +1000,14 @@ function runUniversalCards(dv, inputConfig = {}) {
 
         let passed = true;
 
-        // === Сначала whitelist ===
         if (whitelist.size > 0) {
           if (filterState.matchLogic === "all") {
-            // ✅ AND: все теги из whitelist должны быть в карточке
             passed = Array.from(whitelist).every((tag) => values.includes(tag));
           } else {
-            // ✅ OR: хотя бы один тег из whitelist
             passed = values.some((v) => whitelist.has(v));
           }
         }
 
-        // === Потом blacklist ===
         if (passed && blacklist.size > 0) {
           const blacklistMatch =
             filterState.matchLogic === "all"
@@ -1063,10 +1024,11 @@ function runUniversalCards(dv, inputConfig = {}) {
         ? fieldResults.every(Boolean)
         : fieldResults.some(Boolean);
     });
-  };
+  }
 
   // 🔤 Performs basic text search on configured fields, independent of filters.
-  const filterPages = (allPages, query) => {
+  // Searches for substring matches (case-insensitive).
+  function filterPages(allPages, query) {
     const fields = Array.isArray(config.searchField)
       ? config.searchField
       : [config.searchField];
@@ -1078,30 +1040,31 @@ function runUniversalCards(dv, inputConfig = {}) {
         return str.toLowerCase().includes(query.toLowerCase());
       });
     });
-  };
-
-  // === БЛОК 4. 🧠 КЭШ И СОСТОЯНИЕ ===
+  }
 
   // 💾 Builds a unique localStorage key for slider state based on vault and file path.
-  const getSliderStorageKey = (page, key) => {
-    const pagePath = page?.file?.path || "unknown"; // путь до карточки
+  // Used to persist current image index across reloads.
+  function getSliderStorageKey(page, key) {
+    const pagePath = page?.file?.path || "unknown";
     const vaultName = app.vault.getName();
-    const configPath = dv.current()?.file?.path || "unknown-config"; // путь до скрипта (конфига)
+    const configPath = dv.current()?.file?.path || "unknown-config";
 
     return `universal-slider-${vaultName}-${configPath}::${pagePath}::${key}`;
-  };
+  }
 
   // 💽 Stores current slider index in localStorage for persistence.
-  const saveSliderPosition = (sliderId, index, storageKey) => {
+  // Silently fails if localStorage is unavailable.
+  function saveSliderPosition(sliderId, index, storageKey) {
     try {
       localStorage.setItem(storageKey, index.toString());
     } catch (error) {
       // console.warn("Не удалось сохранить позицию слайдера:", error);
     }
-  };
+  }
 
   // 🔄 Retrieves saved slider index from localStorage or returns 0 if missing.
-  const loadSliderPosition = (storageKey) => {
+  // Gracefully handles errors and invalid values.
+  function loadSliderPosition(storageKey) {
     try {
       const saved = localStorage.getItem(storageKey);
       return saved ? parseInt(saved, 10) : 0;
@@ -1109,17 +1072,19 @@ function runUniversalCards(dv, inputConfig = {}) {
       // console.warn("Не удалось загрузить позицию слайдера:", error);
       return 0;
     }
-  };
+  }
 
-  // 🧠 Gets or initializes a shared state cache for the current note.
-  const getCardScriptCache = (path) => {
+  // 💾 Retrieves or initializes a persistent shared cache for the current note.
+  // Stores instance data like observer, processed image IDs, and filter state.
+  function getCardScriptCache(path) {
     if (!window.cardScriptCache) window.cardScriptCache = {};
     if (!window.cardScriptCache[path]) window.cardScriptCache[path] = {};
     return window.cardScriptCache[path];
-  };
+  }
 
-  // 👁️ Waits for a DOM element with given ID to appear, then runs callback.
-  const observeForImage = (id, callback) => {
+  // 👁️ Watches for a DOM element with the given ID to appear, then invokes a callback with it.
+  // Useful for lazy-loaded or dynamically rendered images.
+  function observeForImage(id, callback) {
     const observer = new MutationObserver((mutationsList) => {
       for (const mutation of mutationsList) {
         for (const node of mutation.addedNodes) {
@@ -1146,12 +1111,11 @@ function runUniversalCards(dv, inputConfig = {}) {
       observer.disconnect();
       callback(existing);
     }
-  };
+  }
 
-  // === БЛОК 5. 🪟 МОДАЛЬНЫЕ ОКНА ===
-
-  // 🪟 Creates or replaces a full-screen modal for displaying an image.
-  const ensureModal = (config) => {
+  // 🪟 Creates (or replaces) a full-screen modal element for displaying an image.
+  // Configures essential styles and prepares DOM for modal behavior.
+  function ensureModal(config) {
     const existing = document.getElementById("universal-modal");
     if (existing) existing.remove();
 
@@ -1169,12 +1133,12 @@ function runUniversalCards(dv, inputConfig = {}) {
       "universal-modal"
     );
 
-    // === КРИТИЧЕСКИ ВАЖНЫЕ СТИЛИ (НЕ УДАЛЯТЬ! КОММЕНТАРИИ НЕ ТРОГАТЬ) ===
+    // === CRITICAL STYLES — DO NOT REMOVE OR EDIT THESE COMMENTS ===
     Object.assign(modal.style, {
-      display: "none", // Не отображать по умолчанию
-      position: "fixed", // Фиксированная позиция поверх всего
-      inset: 0, // Растянуть на весь экран (top/right/bottom/left = 0)
-      zIndex: "9999", // Поверх всех элементов
+      display: "none", // Hidden by default
+      position: "fixed", // Fixed position above all content
+      inset: 0, // Stretch to full screen (top/right/bottom/left = 0)
+      zIndex: "9999", // Ensure it's above all other elements
     });
 
     const modalImg = document.createElement("img");
@@ -1186,14 +1150,14 @@ function runUniversalCards(dv, inputConfig = {}) {
     modal.appendChild(modalImg);
     document.body.appendChild(modal);
 
-    // Закрытие модалки по клику вне изображения
     modal.addEventListener("mouseup", () => {
       modal.style.display = "none";
     });
-  };
+  }
 
-  // 🌄 Shows modal with image once it is loaded.
-  const showModal = (src, config) => {
+  // 🌄 Loads an image into the modal and displays it when ready.
+  // Uses a unique modal ID based on vault and file path.
+  function showModal(src, config) {
     const path = dv.current()?.file?.path || "default";
     const vaultName = app.vault.getName();
     const modalId = `universal-modal-${vaultName.replace(
@@ -1210,10 +1174,11 @@ function runUniversalCards(dv, inputConfig = {}) {
       };
       img.src = src;
     }
-  };
+  }
 
-  // 🖱️ Attaches event listeners to images for modal opening (click/hold mode).
-  const activateModalHandlers = (config) => {
+  // 🖱️ Attaches modal open handlers to images in the current note.
+  // Supports click or hold mode as defined in config.modalBehavior.
+  function activateModalHandlers(config) {
     const cache = getCardScriptCache(dv.current()?.file?.path || "default");
 
     if (!cache.imageIds) return;
@@ -1253,12 +1218,12 @@ function runUniversalCards(dv, inputConfig = {}) {
         }
       });
     }
-  };
+  }
 
-  // 🧰 Renders the full-screen filter modal.
-  // Allows selecting a field, entering tag values, switching between whitelist/blacklist, and match logic.
-  // Automatically saves state and reacts to file switch in the same pane.
-  const renderFilterModal = (config, onClose) => {
+  // 🧰 Renders the full-screen filter modal for advanced filtering.
+  // Allows selecting fields, entering tag values, toggling whitelist/blacklist mode, and AND/OR logic.
+  // Modifies filterState in cache and updates collapse state. Handles file switch inside the same pane.
+  function renderFilterModal(config, onClose) {
     let clearAllBtn;
 
     const cache = getCardScriptCache(dv.current()?.file?.path || "default");
@@ -1290,16 +1255,13 @@ function runUniversalCards(dv, inputConfig = {}) {
     overlay.id = "universal-filter-modal";
     overlay.className = "universal-modal-overlay";
 
-    // Найдём ближайшую панель, чтобы не перекрывать весь экран
     const parentPanel = dv.container.closest(".view-content");
-    parentPanel.style.position = "relative"; // ВАЖНО!
+    parentPanel.style.position = "relative";
     parentPanel.appendChild(overlay);
 
-    // Содержимое окна
     const modal = document.createElement("div");
     modal.className = "universal-filter-modal-content";
 
-    // Кнопка-крестик
     const closeX = document.createElement("button");
     closeX.className = "universal-filter-close";
     closeX.textContent = "×";
@@ -1317,13 +1279,11 @@ function runUniversalCards(dv, inputConfig = {}) {
     note.textContent = t.UI.FILTER.DESCRIPTION;
     modal.appendChild(note);
 
-    //Скрытие списка подсказок
     const hideSuggestions = () => {
       suggestionList.innerHTML = "";
       suggestionList.style.display = "none";
     };
 
-    // === Список полей ===
     const fieldSelectWrapper = document.createElement("div");
     fieldSelectWrapper.classList.add("universal-input-wrapper");
 
@@ -1337,7 +1297,6 @@ function runUniversalCards(dv, inputConfig = {}) {
     fieldSelect.className = "universal-select";
     fieldSelect.dataset.lastField = fieldSelect.value;
 
-    // Список допустимых типов полей и полей
     let eligibleFields = [];
 
     if (config.filtering?.mode === "byFields") {
@@ -1357,7 +1316,6 @@ function runUniversalCards(dv, inputConfig = {}) {
       );
     }
 
-    // Добавляем поля
     for (const [field, def] of eligibleFields) {
       const option = document.createElement("option");
       option.value = field;
@@ -1365,14 +1323,12 @@ function runUniversalCards(dv, inputConfig = {}) {
       fieldSelect.appendChild(option);
     }
 
-    //Поле по умолчанию для фильтрации.
     if (eligibleFields.length > 0) {
       const defaultField = eligibleFields[0][0];
       fieldSelect.value = defaultField;
       fieldSelect.dataset.lastField = defaultField;
     }
 
-    // Вставляем в DOM
     fieldSelectWrapper.appendChild(fieldLabel);
     fieldSelectWrapper.appendChild(fieldSelect);
     modal.appendChild(fieldSelectWrapper);
@@ -1380,7 +1336,6 @@ function runUniversalCards(dv, inputConfig = {}) {
     fieldSelect.addEventListener("change", () => {
       suggestionList.style.display = "none";
 
-      // Если нет тегов — просто обновить текущее выбранное поле
       if (currentTags.length === 0) {
         fieldSelect.dataset.lastField = fieldSelect.value;
         return;
@@ -1415,7 +1370,6 @@ function runUniversalCards(dv, inputConfig = {}) {
 
     fieldSelect.dataset.lastField = fieldSelect.value;
 
-    // === Ввод значений (теги) ===
     const valueInputWrapper = document.createElement("div");
     valueInputWrapper.classList.add("universal-input-wrapper");
 
@@ -1434,7 +1388,6 @@ function runUniversalCards(dv, inputConfig = {}) {
     tagInput.placeholder = t.UI.FILTER.VALUE_PLACEHOLDER;
     tagInput.className = "universal-tag-input";
 
-    // ⬇️ создаём один раз, глобально
     const suggestionList = document.createElement("div");
     suggestionList.className = "universal-suggestion-list";
     suggestionList.style.display = "none";
@@ -1444,10 +1397,8 @@ function runUniversalCards(dv, inputConfig = {}) {
 
     tagInputContainer.appendChild(suggestionList);
 
-    // Список текущих тегов
     let currentTags = [];
 
-    // Добавление тега
     const addTag = (value) => {
       const trimmed = value.trim();
 
@@ -1461,7 +1412,6 @@ function runUniversalCards(dv, inputConfig = {}) {
       updateActiveFilters();
     };
 
-    // Отображение тегов
     const renderTags = () => {
       tagList.innerHTML = "";
       for (const tag of currentTags) {
@@ -1482,7 +1432,6 @@ function runUniversalCards(dv, inputConfig = {}) {
       }
     };
 
-    //отображение подсказок
     const renderSuggestions = (fieldName) => {
       suggestionList.innerHTML = "";
       suggestionList.style.display = "none";
@@ -1498,7 +1447,6 @@ function runUniversalCards(dv, inputConfig = {}) {
         }
       }
 
-      // --- Всё, что ниже — выполняется ТОЛЬКО при конкретном поле ---
       let suggestions = pages
         .map((p) => p[fieldName])
         .flat()
@@ -1553,7 +1501,6 @@ function runUniversalCards(dv, inputConfig = {}) {
       suggestionList.style.display = "block";
     };
 
-    // Обработка ввода
     tagInput.addEventListener("keydown", (e) => {
       if (e.key === "Enter") {
         e.preventDefault();
@@ -1569,13 +1516,11 @@ function runUniversalCards(dv, inputConfig = {}) {
       renderSuggestions(fieldSelect.value);
     });
 
-    // Сборка компонентов
     tagInputContainer.appendChild(tagInput);
     valueInputWrapper.appendChild(valueLabel);
     valueInputWrapper.appendChild(tagInputContainer);
     modal.appendChild(valueInputWrapper);
 
-    // === Переключатель режима фильтрации ===
     const modeWrapper = document.createElement("div");
     modeWrapper.style.marginTop = "1em";
 
@@ -1633,7 +1578,6 @@ function runUniversalCards(dv, inputConfig = {}) {
     modeWrapper.appendChild(modeToggle);
     modal.appendChild(modeWrapper);
 
-    // === Показать список текущих фильтров ===
     const activeFiltersWrapper = document.createElement("div");
     activeFiltersWrapper.className = "universal-active-filters";
 
@@ -1642,14 +1586,12 @@ function runUniversalCards(dv, inputConfig = {}) {
 
       const rules = pendingFilterState.rules || [];
       if (rules.length === 0) {
-        cache.filterCollapseState = {}; // 🔁 сбрасываем состояние, если нет ни одной секции
+        cache.filterCollapseState = {};
         return;
       }
 
-      // 🔧 кэш для запоминания свёрнутости
       if (!cache.filterCollapseState) cache.filterCollapseState = {};
 
-      // === Группируем правила по полю ===
       const grouped = {};
       for (const rule of rules) {
         if (!grouped[rule.field]) {
@@ -1658,7 +1600,6 @@ function runUniversalCards(dv, inputConfig = {}) {
         grouped[rule.field][rule.mode].push(...rule.values);
       }
 
-      // === Для каждого поля: отрисовываем блок ===
       for (const field in grouped) {
         const fieldGroup = grouped[field];
         const wrapper = document.createElement("div");
@@ -1666,7 +1607,6 @@ function runUniversalCards(dv, inputConfig = {}) {
 
         const emoji = config.fields?.[field]?.emoji || "📂";
 
-        // === Заголовок со стрелкой и сворачиванием ===
         const toggleBtn = document.createElement("div");
         toggleBtn.className = "universal-collapsible-header";
 
@@ -1684,7 +1624,6 @@ function runUniversalCards(dv, inputConfig = {}) {
         detailsContainer.className = "universal-field-details";
         wrapper.appendChild(detailsContainer);
 
-        // === Восстановим состояние collapsed из кэша
         let collapsed = cache.filterCollapseState[field] ?? true;
         detailsContainer.style.display = collapsed ? "none" : "block";
         arrow.textContent = collapsed ? "▶️" : "🔽";
@@ -1700,7 +1639,6 @@ function runUniversalCards(dv, inputConfig = {}) {
           }, 100);
         });
 
-        // === whitelist
         if (fieldGroup.whitelist.length > 0) {
           const whiteRow = document.createElement("div");
           whiteRow.className = "universal-filter-rule";
@@ -1728,7 +1666,6 @@ function runUniversalCards(dv, inputConfig = {}) {
                 if (rules[idx].values.length === 0) rules.splice(idx, 1);
               }
 
-              // если фильтров больше нет — сбрасываем состояние
               const fieldHasValues = rules.some((r) => r.field === field);
               if (!fieldHasValues) {
                 delete cache.filterCollapseState[field];
@@ -1744,7 +1681,6 @@ function runUniversalCards(dv, inputConfig = {}) {
           detailsContainer.appendChild(whiteRow);
         }
 
-        // === blacklist
         if (fieldGroup.blacklist.length > 0) {
           const blackRow = document.createElement("div");
           blackRow.className = "universal-filter-rule";
@@ -1795,17 +1731,15 @@ function runUniversalCards(dv, inputConfig = {}) {
       }
     };
 
-    updateActiveFilters(); // запускаем сразу
+    updateActiveFilters();
     modal.appendChild(activeFiltersWrapper);
 
-    // Кнопки
     const controls = document.createElement("div");
     controls.className = "universal-filter-controls";
 
     const applyBtn = document.createElement("button");
     applyBtn.textContent = t.UI.FILTER.APPLY;
     applyBtn.onclick = () => {
-      // 🛡️ Инициализируем filterState, если его ещё нет
       if (!cache.filterState) {
         cache.filterState = {
           rules: [],
@@ -1814,7 +1748,6 @@ function runUniversalCards(dv, inputConfig = {}) {
         };
       }
 
-      // ⬇️ Сохраняем текущие теги, если они есть
       const field = fieldSelect.dataset.lastField || fieldSelect.value;
       const values = [...currentTags];
       const mode = currentMode;
@@ -1833,7 +1766,6 @@ function runUniversalCards(dv, inputConfig = {}) {
         }
       }
 
-      // ✅ ПРИМЕНЯЕМ временное состояние
       cache.filterState = JSON.parse(JSON.stringify(pendingFilterState));
 
       overlay.remove();
@@ -1861,7 +1793,6 @@ function runUniversalCards(dv, inputConfig = {}) {
       if (!cache?.filterState?.rules?.length) return;
 
       if (clearTagsWarning) {
-        // Открываем подтверждение
         const confirmOverlay = document.createElement("div");
         confirmOverlay.className = "universal-confirm-overlay";
 
@@ -1886,7 +1817,7 @@ function runUniversalCards(dv, inputConfig = {}) {
           renderTags();
           updateActiveFilters();
           confirmOverlay.remove();
-          overlay.remove(); // ⬅️ Закрываем модалку фильтров
+          overlay.remove();
           if (typeof onClose === "function") onClose();
         };
 
@@ -1916,11 +1847,9 @@ function runUniversalCards(dv, inputConfig = {}) {
       }
     };
 
-    // === Переключатель логики: AND / OR ===
     const logicWrapper = document.createElement("div");
     logicWrapper.style.marginTop = "1em";
 
-    // === Заголовок + иконка инфо ===
     const labelRow = document.createElement("div");
     labelRow.className = "universal-logic-label-row";
 
@@ -1965,9 +1894,8 @@ function runUniversalCards(dv, inputConfig = {}) {
 
     overlay.appendChild(modal);
 
-    // === Скрывать подсказки при смене поля ===
     fieldSelect.addEventListener("change", () => {
-      suggestionList.style.display = "none"; // ✅ Сохраняем твою часть
+      suggestionList.style.display = "none";
 
       if (currentTags.length === 0) {
         fieldSelect.dataset.lastField = fieldSelect.value;
@@ -2001,7 +1929,6 @@ function runUniversalCards(dv, inputConfig = {}) {
       fieldSelect.dataset.lastField = fieldSelect.value;
     });
 
-    // === Скрытие подсказок при клике вне поля или списка ===
     document.addEventListener("mousedown", (e) => {
       setTimeout(() => {
         const clickedInside =
@@ -2013,7 +1940,6 @@ function runUniversalCards(dv, inputConfig = {}) {
       }, 0);
     });
 
-    // Закрытие по Esc
     const handleEscape = (e) => {
       if (e.key !== "Escape") return;
 
@@ -2021,9 +1947,8 @@ function runUniversalCards(dv, inputConfig = {}) {
         ".universal-confirm-overlay"
       );
       if (confirmOverlay) {
-        // Если открыто окно подтверждения — закрываем только его
         confirmOverlay.remove();
-        return; // ⛔️ НЕ закрываем основное окно
+        return;
       }
 
       const activeEl = document.activeElement;
@@ -2044,11 +1969,9 @@ function runUniversalCards(dv, inputConfig = {}) {
     document.removeEventListener("keydown", handleEscape);
     document.addEventListener("keydown", handleEscape);
 
-    // === Запоминаем активную панель и файл при открытии фильтра
     const originLeaf = app.workspace.getMostRecentLeaf();
     const originFilePath = originLeaf?.view?.file?.path;
 
-    // === Отслеживаем переключение активной заметки внутри той же панели
     const detachHandler = () => {
       const activeLeaf = app.workspace.getMostRecentLeaf();
       const activeFilePath = activeLeaf?.view?.file?.path;
@@ -2065,25 +1988,22 @@ function runUniversalCards(dv, inputConfig = {}) {
     };
 
     app.workspace.on("active-leaf-change", detachHandler);
-  };
+  }
 
-  // === БЛОК 6. 🖼 РЕНДЕР ПОЛЕЙ ===
-
-  // 🎨 Resolves the final CSS class to apply.
-  // Uses a custom class if defined; otherwise, applies a default class.
-  const resolveCssClass = (userClass, ...defaultClasses) => {
+  // 🎨 Resolves the effective CSS class string by merging default and user-defined classes.
+  // Handles cases where userClass is string, array, or object with true/false flags.
+  function resolveCssClass(userClass, ...defaultClasses) {
     const user = (userClass || "").trim();
     const base = defaultClasses.filter(Boolean).join(" ");
 
-    // Если пользователь указал КЛАСС, но он уже содержит базовые — не дублируем
     if (!user) return base;
 
     const all = `${base} ${user}`;
     return [...new Set(all.split(/\s+/))].join(" ");
-  };
+  }
 
-  // ⬜ Renders a placeholder element for blank or missing values.
-  // Supports custom text via `def.blankText`. Adds tooltip from label or field key.
+  // 🕳️ Renders a placeholder div when no value is present for a field.
+  // Ensures layout consistency when data is missing or null.
   function renderBlankPlaceholder(key, def = {}) {
     const text = typeof def.blankText === "string" ? def.blankText : "—";
     const label =
@@ -2100,23 +2020,21 @@ function runUniversalCards(dv, inputConfig = {}) {
     return `<div class="universal-field-blank" title="${safeLabel}">${text}</div>`;
   }
 
-  // 🖼️ Generates the HTML for a single image field.
-  // Handles external URLs, vault files, unique IDs, and caching for modal activation.
-  const parseImage = (val, page, def, key, config) => {
+  // 🖼️ Parses and renders an image element from a given field value.
+  // Supports raw URLs, markdown image links, and file paths within vault.
+  // Adds modal behavior and fallback if modal disabled or image fails.
+  function parseImage(val, page, def, key, config) {
     if (isBlank(val)) return renderBlankPlaceholder(key, def);
 
     const raw = Array.isArray(val) ? val[0] : val;
 
     let path = "";
-    // 🆔 Генерация уникального ID для привязки модалки
     const id = getSafeId(page, key, "img");
 
-    // ✅ Сохраняем ID изображения в кэш
     const cache = getCardScriptCache(dv.current()?.file?.path || "default");
     if (!cache.imageIds) cache.imageIds = [];
     cache.imageIds.push(id);
 
-    // 🌐 Поддержка внешних ссылок
     if (typeof raw === "string" && raw.startsWith("http")) {
       path = raw;
     } else {
@@ -2137,14 +2055,12 @@ function runUniversalCards(dv, inputConfig = {}) {
     return `<div class="${wrapperClass}">
       <img id="${id}" src="${path}" class="${imageClass}" draggable="false" loading="lazy">
     </div>`;
-  };
+  }
 
-  // 🖼️ Collection of field rendering functions.
-  // Each type (image, text, badge, etc.) has a specific renderer returning HTML.
-  // Used to display fields based on their `type` in the config.
+  // 🧩 A mapping of field types to rendering functions for each type.
+  // Handles default rendering, images, tags, links, and custom components.
+  // Can be extended or overridden by config.customFieldRenderers.
   const fieldRenderers = {
-    // 🖼️ Renders an image field with optional slider support.
-    // If multiple images are present and slider is enabled, creates a navigable image carousel with state persistence.
     image: (val, page, def, key, config) => {
       const items = getCleanedStringList(val);
       const maxItems = def?.maxSliderItems || 1;
@@ -2165,7 +2081,6 @@ function runUniversalCards(dv, inputConfig = {}) {
         return parseImage(limitedItems[0], page, def, key, config);
       }
 
-      // === СЛАЙДЕР С СОХРАНЕНИЕМ СОСТОЯНИЯ ===
       const sliderId = getSafeId(page, key, "slider");
       const storageKey = getSliderStorageKey(page, key);
       const savedIndex = loadSliderPosition(storageKey);
@@ -2247,16 +2162,12 @@ function runUniversalCards(dv, inputConfig = {}) {
       </div>`;
     },
 
-    // ✍️ Renders text or a list of values as a comma-separated string.
-    // Applies optional prefix and suffix for styling or labeling.
     text: (val, page, def, key, config) => {
       const outerClass = resolveCssClass(def?.cssClass, "universal-text");
 
-      // Приводим к массиву
       const items = getCleanedStringList(val);
       if (items.length === 0) return renderBlankPlaceholder(key, def);
 
-      // Берём первое значение и преобразуем в строку
       const raw = items[0];
       const value = typeof raw === "string" ? raw : String(raw);
 
@@ -2266,8 +2177,6 @@ function runUniversalCards(dv, inputConfig = {}) {
       )}</div>`;
     },
 
-    // 🔗 Renders a link to the page itself or to another page-like value.
-    // Falls back to the page name if no valid link is provided.
     pageLink: (val, page, def, key, config) => {
       const outerClass = resolveCssClass(def?.cssClass, "universal-link");
 
@@ -2278,7 +2187,6 @@ function runUniversalCards(dv, inputConfig = {}) {
       const filePath = page.file.path;
       const fileName = page.file.name.replace(/\.md$/, "");
 
-      // 💡 Безопасное извлечение значения
       let raw = Array.isArray(val) ? val[0] : val;
       const display =
         typeof raw === "string" && raw.trim() !== "" ? raw.trim() : fileName;
@@ -2290,8 +2198,6 @@ function runUniversalCards(dv, inputConfig = {}) {
       )}</div>`;
     },
 
-    // 📋 Renders a list of values as either bullet points or inline text.
-    // Truncates to `maxItems`, adds a tooltip and hidden marker if needed.
     list: (val, page, def, key, config) => {
       const asBullets = def?.display === "bullets";
       const baseClass = resolveCssClass(
@@ -2333,10 +2239,8 @@ function runUniversalCards(dv, inputConfig = {}) {
       }
     },
 
-    // 🏷️ Renders inline tag-style badges.
-    // Truncates long lists and shows hidden count as a visual indicator.
     badge: (val, page, def, key, config) => {
-      const containerClass = "universal-badge-container"; // 🔒 фиксировано
+      const containerClass = "universal-badge-container";
 
       const maxItems = def?.maxItems || Infinity;
       const items = getCleanedStringList(val);
@@ -2383,8 +2287,6 @@ function runUniversalCards(dv, inputConfig = {}) {
       return `<div class="${containerClass}"${tooltip}>${badges} ${hiddenMarker}</div>`;
     },
 
-    // 🔊 Renders an audio player.
-    // Supports internal Obsidian files and external audio URLs, with fallbacks for invalid formats.
     audio: (val, page, def, key, config) => {
       const outerClass = resolveCssClass(def?.cssClass, "universal-audio");
       if (isBlank(val)) return renderBlankPlaceholder(key, def);
@@ -2392,7 +2294,6 @@ function runUniversalCards(dv, inputConfig = {}) {
       const raw = Array.isArray(val) ? val[0] : val;
       const rawStr = String(raw).trim();
 
-      // Прямая внешняя ссылка на аудиофайл
       if (
         rawStr.startsWith("http") &&
         /\.(mp3|ogg|wav|flac|m4a)$/i.test(rawStr)
@@ -2403,7 +2304,6 @@ function runUniversalCards(dv, inputConfig = {}) {
         </div>`;
       }
 
-      // Внутренний файл из хранилища (включая ![[audio.mp3]])
       const file = resolveFileFromRaw(raw);
       if (file) {
         const src = app.vault.getResourcePath(file);
@@ -2413,12 +2313,10 @@ function runUniversalCards(dv, inputConfig = {}) {
         </div>`;
       }
 
-      // file:// — неподдерживаемая схема
       if (rawStr.startsWith("file://")) {
         return `<div class="${outerClass}">${t.UI.MEDIA.FILE_SCHEME_UNSUPPORTED}</div>`;
       }
 
-      // Внешняя ссылка (например, на сайт или стриминг)
       try {
         const url = new URL(rawStr);
         return `<div class="${outerClass}"><a href="${url.href}" target="_blank" rel="noopener noreferrer">${t.UI.MEDIA.AUDIO_EXTERNAL_LINK}</a></div>`;
@@ -2427,8 +2325,6 @@ function runUniversalCards(dv, inputConfig = {}) {
       }
     },
 
-    // 🎬 Renders a video player.
-    // Supports YouTube embeds, external video links, and local vault files.
     video: (val, page, def, key, config) => {
       const outerClass = resolveCssClass(def?.cssClass, "universal-video");
       if (isBlank(val)) return renderBlankPlaceholder(key, def);
@@ -2436,7 +2332,6 @@ function runUniversalCards(dv, inputConfig = {}) {
       const raw = Array.isArray(val) ? val[0] : val;
       const rawStr = String(raw).trim();
 
-      // YouTube
       if (rawStr.includes("youtube.com") || rawStr.includes("youtu.be")) {
         try {
           const url = new URL(rawStr);
@@ -2457,7 +2352,6 @@ function runUniversalCards(dv, inputConfig = {}) {
         }
       }
 
-      // Прямая внешняя ссылка на видеофайл (mp4, webm, ogg, mov)
       if (rawStr.startsWith("http") && /\.(mp4|webm|ogg|mov)$/i.test(rawStr)) {
         const id = getSafeId(page, key, "vid");
         return `<div class="universal-video-container">
@@ -2465,7 +2359,6 @@ function runUniversalCards(dv, inputConfig = {}) {
         </div>`;
       }
 
-      // Внутренний файл из хранилища Obsidian (включая путь в виде строки)
       const file = resolveFileFromRaw(raw);
       if (file) {
         const src = app.vault.getResourcePath(file);
@@ -2475,12 +2368,10 @@ function runUniversalCards(dv, inputConfig = {}) {
       </div>`;
       }
 
-      // file:// — неподдерживаемая схема
       if (rawStr.startsWith("file://")) {
         return `<div class="${outerClass}">${t.UI.MEDIA.FILE_SCHEME_UNSUPPORTED}</div>`;
       }
 
-      // Просто внешняя ссылка (на случай непонятного формата)
       try {
         const url = new URL(rawStr);
         return `<div class="${outerClass}"><a href="${url.href}" target="_blank" rel="noopener noreferrer">${t.UI.MEDIA.VIDEO_EXTERNAL_LINK}</a></div>`;
@@ -2489,8 +2380,6 @@ function runUniversalCards(dv, inputConfig = {}) {
       }
     },
 
-    // 📈 Renders a progress bar based on two fields: current and max.
-    // Supports CSS class thresholds to colorize progress dynamically.
     progressBar: (val, page, def, key, config) => {
       const outerClass = resolveCssClass(
         def?.cssClass,
@@ -2514,7 +2403,6 @@ function runUniversalCards(dv, inputConfig = {}) {
 
       const percent = Math.min(100, Math.round((current / max) * 100));
 
-      // Определяем класс по порогам
       let progressClass = "progress-undefined";
       for (const rule of thresholds) {
         if (percent >= rule.min) {
@@ -2533,15 +2421,12 @@ function runUniversalCards(dv, inputConfig = {}) {
     `;
     },
 
-    // 📅 Renders a localized date.
-    // Supports Luxon for formatting and falls back to native Date API.
     date: (val, page, def, key, config) => {
       const outerClass = resolveCssClass(def?.cssClass, "universal-date");
       if (isBlank(val)) return renderBlankPlaceholder(key, def);
 
       const raw = Array.isArray(val) ? val[0] : val;
 
-      // Определяем язык
       const getEffectiveLang = (defLang) => {
         const supported = [
           "ru",
@@ -2557,11 +2442,9 @@ function runUniversalCards(dv, inputConfig = {}) {
           "ja",
         ];
 
-        // Если явно указано "auto" или ничего — пробуем автоопределение
         const userLang = navigator.language || "en-US";
         const fallback = userLang.split("-")[0];
 
-        // Если поле явно указано, но пусто → считаем недопустимым
         if (defLang === "") return "en";
 
         const short = (
@@ -2594,7 +2477,6 @@ function runUniversalCards(dv, inputConfig = {}) {
         )}</div>`;
       }
 
-      // Fallback: native Date
       try {
         const d = new Date(raw);
         if (isNaN(d.getTime())) {
@@ -2616,8 +2498,6 @@ function runUniversalCards(dv, inputConfig = {}) {
       }
     },
 
-    // ⭐ Renders a star rating out of 5 based on a numeric value and a max score.
-    // Uses full/half/empty stars depending on the ratio.
     rating: (val, page, def, key, config) => {
       const outerClass = resolveCssClass(def?.cssClass, "universal-rating");
       if (isBlank(val)) return renderBlankPlaceholder(key, def);
@@ -2649,8 +2529,6 @@ function runUniversalCards(dv, inputConfig = {}) {
       return html;
     },
 
-    // 🏷️ Renders a list of Obsidian-style tags (#tag).
-    // Supports strings with commas and avoids double hashtags.
     tags: (val, page, def, key, config) => {
       const containerClass = resolveCssClass(
         def?.cssClass,
@@ -2658,7 +2536,6 @@ function runUniversalCards(dv, inputConfig = {}) {
       );
       const itemClass = resolveCssClass(def?.itemClass, "universal-tags-item");
 
-      // Используем универсальную функцию для нормализации
       const items = getCleanedStringList(val);
 
       if (items.length === 0) return renderBlankPlaceholder(key, def);
@@ -2667,9 +2544,8 @@ function runUniversalCards(dv, inputConfig = {}) {
       const visible = items.slice(0, maxItems);
       const hidden = items.slice(maxItems);
 
-      // Защита от двойных решёток
       const formatTag = (tag) => {
-        const clean = tag.trim().replace(/^#+/, ""); // убираем все #
+        const clean = tag.trim().replace(/^#+/, "");
         return `#${clean}`;
       };
 
@@ -2697,8 +2573,6 @@ function runUniversalCards(dv, inputConfig = {}) {
     </div>`;
     },
 
-    // 🔢 Renders a numeric value with optional formatting.
-    // Attempts to parse from strings or arrays with decimal handling.
     number: (val, page, def, key, config) => {
       if (isBlank(val)) return renderBlankPlaceholder(key, def);
 
@@ -2716,7 +2590,6 @@ function runUniversalCards(dv, inputConfig = {}) {
       return `<div class="${cssClass}">${applyPrefixAndSuffix(num, def)}</div>`;
     },
 
-    // ссылки
     link: (val, page, def, key, config) => {
       const items = getCleanedStringList(val);
       if (items.length === 0) return renderBlankPlaceholder(key, def);
@@ -2739,11 +2612,10 @@ function runUniversalCards(dv, inputConfig = {}) {
 
       const renderLink = (raw) => {
         const trimmed = String(raw).trim();
-        const unquoted = trimmed.replace(/^"(.*)"$/, "$1"); // убираем кавычки
+        const unquoted = trimmed.replace(/^"(.*)"$/, "$1");
 
-        if (!/^https?:\/\//.test(unquoted)) return escapeHtml(unquoted); // защита
+        if (!/^https?:\/\//.test(unquoted)) return escapeHtml(unquoted);
 
-        // Ищем кастомный label по совпадению ссылки
         const found = linksName.find(
           (item) =>
             typeof item.match === "string" && unquoted.includes(item.match)
@@ -2775,12 +2647,11 @@ function runUniversalCards(dv, inputConfig = {}) {
     },
   };
 
-  // 🧱 Universal renderer for a single field.
-  // Looks up the proper field renderer by type and returns HTML.
-  // Handles unknown fields, missing types, and rendering errors.
-  const renderField = (page, key, def, config) => {
+  // 🧷 Renders a single field value for a page based on its definition.
+  // Uses type-specific renderer from fieldRenderers, or a fallback renderer.
+  // Adds CSS classes, labels, and optional wrapping based on config.
+  function renderField(page, key, def, config) {
     try {
-      // ⚠️ Нет информации о типе — показываем предупреждение
       if (!def || !def.type) {
         return `<div class="universal-warning">⚠️ ${t.UI.RENDER.UNKNOWN_FIELD} <b>${key}</b></div>`;
       }
@@ -2788,23 +2659,18 @@ function runUniversalCards(dv, inputConfig = {}) {
       const val = page[key];
       const renderer = fieldRenderers?.[def.type];
 
-      // ⚠️ Тип не поддерживается — выводим сообщение
       if (!renderer) {
         return `<div class="universal-warning">⚠️ ${t.UI.RENDER.UNSUPPORTED_TYPE} <b>${def.type}</b> (${key})</div>`;
       }
 
-      // ✅ Всё в порядке — рендерим
       return renderer(val, page, def, key, config);
     } catch (e) {
       return `<div class="universal-warning">⚠️ ${t.UI.RENDER.FIELD_ERROR} <b>${key}</b>: ${e.message}</div>`;
     }
-  };
+  }
 
-  // === БЛОК 7. 🧱 СЕКЦИИ ===
-
-  // 📄 Generates one table row (array of rendered cells) for a page.
-  // Renders each field using config definitions and wraps them as needed.
-  // Skips wrappers for media types like image, audio, etc.
+  // 🧱 Generates a complete card (row) element for a page in the section.
+  // Renders all fields using renderField and wraps in the defined layout.
   function generateRow(page, section, config) {
     return section.fields.map((key) => {
       const val = page[key];
@@ -2826,10 +2692,9 @@ function runUniversalCards(dv, inputConfig = {}) {
     });
   }
 
-  // 🗂️ Renders a single card section as a collapsible <details> block.
-  // Handles section state persistence, lazy loading by chunk, and sorting.
-  // Uses IntersectionObserver to load sections as they enter the viewport.
-  const renderSectionTable = (section, pages, config) => {
+  // 🧮 Renders the HTML table structure for a section of cards.
+  // Injects each row (card) into the table container using generateRow.
+  function renderSectionTable(section, pages, config) {
     const sorted = sortPages(pages);
 
     const stateKey = `universal-section-${dv.current().file.path}-${
@@ -2838,16 +2703,13 @@ function runUniversalCards(dv, inputConfig = {}) {
     const rememberState = config.sectionBehavior?.rememberState ?? false;
     const defaultOpen = config.sectionBehavior?.defaultOpen ?? true;
 
-    // 🔁 Контейнер для таблицы, будет вставлен позже
     const tableContainer = document.createElement("div");
     tableContainer.className = "universal-section-content";
 
-    // Создаём секцию <details>
     const details = document.createElement("details");
     details.className = `universal-section ${section.styleClass || ""}`;
     details.appendChild(tableContainer);
 
-    // 🧠 Определяем, открыта ли секция
     let isOpen;
     if (rememberState) {
       const saved = localStorage.getItem(stateKey);
@@ -2870,7 +2732,6 @@ function runUniversalCards(dv, inputConfig = {}) {
     `;
     details.insertBefore(summary, tableContainer);
 
-    // 💾 Сохраняем состояние секции при клике
     summary.addEventListener("click", () => {
       setTimeout(() => {
         const isNowOpen = details.hasAttribute("open");
@@ -2878,13 +2739,11 @@ function runUniversalCards(dv, inputConfig = {}) {
       }, 10);
     });
 
-    // ✅ Вся логика отрисовки обёрнута в IIFE
     (() => {
       let renderedOnce = false;
 
-      // 📥 Renders the inner table content for a section.
-      // Supports lazy loading via IntersectionObserver, or immediate rendering.
-      // Manages chunking, container replacement, and row generation.
+      // 📦 Inserts all rendered section tables into the DOM container.
+      // Iterates over all sections and mounts them in order.
       function renderSectionContent() {
         renderedOnce = true;
 
@@ -2918,7 +2777,6 @@ function runUniversalCards(dv, inputConfig = {}) {
                 const chunkIndex = parseInt(placeholder.dataset.chunkIndex);
                 if (placeholder.dataset.loaded === "true") return;
 
-                // Подгружаем, если чанк ≤ уже загруженного + preload-запас
                 if (chunkIndex > highestLoadedChunk + PRELOAD_CHUNKS) return;
 
                 placeholder.dataset.loaded = "true";
@@ -2965,27 +2823,24 @@ function runUniversalCards(dv, inputConfig = {}) {
         }
       }
 
-      // 👂 Секция открылась вручную
       details.addEventListener("toggle", () => {
         if (details.open && !renderedOnce) {
           renderSectionContent();
         }
       });
 
-      // 🔘 Если открыта по умолчанию — сразу отрисовать
       if (isOpen) {
         renderSectionContent();
       }
     })();
 
-    // ⬇️ Вставляем всю секцию
     dv.container.appendChild(details);
-  };
+  }
 
-  // 🗂️ Processes and renders all configured sections from config.sections.
-  // Applies section.match logic, blocking behavior, and duplicate rules.
-  // Updates renderedPages and blockedPages sets.
-  const renderSections = (sortedPages, renderedPages, blockedPages) => {
+  // 🗂️ Groups pages into sections based on section rules and renders each section.
+  // Applies filters, sorting, and calls renderSectionTable for visual output.
+  // Tracks rendered and blocked pages to avoid duplicates.
+  function renderSections(sortedPages, renderedPages, blockedPages) {
     for (const section of config.sections) {
       const isBlocking = section.isBlocking ?? false;
 
@@ -2994,9 +2849,7 @@ function runUniversalCards(dv, inputConfig = {}) {
         const alreadyRendered = renderedPages.has(p.file.path);
         const allowDupes = section.allowDuplicates;
 
-        // 🔐 Пропускаем, если уже попала в блокирующую секцию
         if (alreadyBlocked) return false;
-        // ❌ Пропускаем, если уже отрендерена и повторы не разрешены
         if (alreadyRendered && !allowDupes) return false;
 
         return section.match(p, config);
@@ -3011,12 +2864,11 @@ function runUniversalCards(dv, inputConfig = {}) {
         });
       }
     }
-  };
+  }
 
-  // 📄 Renders a table for remaining pages not included in any section.
-  // Uses generateRow to render each page, then calls dv.table.
-  // Returns the list of rendered pages for further processing.
-  const renderRemainingPages = (sortedPages, renderedPages) => {
+  // 📄 Renders any pages that were not assigned to a section.
+  // Ensures no valid page is skipped; renders as a fallback section.
+  function renderRemainingPages(sortedPages, renderedPages) {
     const remainingPages = sortedPages.filter(
       (p) => !renderedPages.has(p.file.path)
     );
@@ -3030,9 +2882,7 @@ function runUniversalCards(dv, inputConfig = {}) {
     }
 
     return remainingPages;
-  };
-
-  // === БЛОК 8. 📦 ЗАГРУЗКА ДАННЫХ ===
+  }
 
   // 🧮 Loads all pages from the vault and filters them based on folder path and type.
   const pages = dv
@@ -3042,34 +2892,16 @@ function runUniversalCards(dv, inputConfig = {}) {
 
   enrichVirtualFields(pages, config);
 
-  // === БЛОК 9. 🚀 ИНИЦИАЛИЗАЦИЯ ===
-
-  // 📦 Returns a memoized object for the current note's observer state.
-  // Contains:
-  // - `processedImages`: a Set of image IDs already handled
-  // - `observerInstance`: shared IntersectionObserver reference
-  // Used in lazy image loading via renderCards.
-  const getObserverCache = () => {
-    const cache = getCardScriptCache(dv.current()?.file?.path || "default");
-    if (!cache.processedImages) cache.processedImages = new Set();
-    if (!cache.observerInstance) cache.observerInstance = null;
-    return cache;
-  };
-
-  // Используется механизм кэширования, чтобы ускорить рендер при переключении вкладок
   let currentPath, cache, activePath;
-  let canRender = true; // Флаг допуска: разрешает запуск всей инициализации UI и рендера
+  let canRender = true;
 
-  // Проверяет, что Dataview загрузился и текущий файл определён
-  // - Если нет — показывает сообщение и откладывает инициализацию
-  // 🔹 Используется перед вызовом UI.
   try {
     const current = dv.current();
     if (!current?.file?.path) throw new Error(t.UI.INIT.FILE_NOT_FOUND);
 
     currentPath = current.file.path;
     cache = getCardScriptCache(currentPath);
-    cache.imageIds = []; // предотвращает дублирующие события при повторном запуске
+    cache.imageIds = [];
     activePath = app.workspace.getActiveFile()?.path;
   } catch (err) {
     canRender = false;
@@ -3086,11 +2918,9 @@ function runUniversalCards(dv, inputConfig = {}) {
     setTimeout(() => {
       notice.classList.add("fade-out");
       setTimeout(() => notice.remove(), 1000);
-    }, 4000); // ← общее время показа (в миллисекундах)
+    }, 4000);
   }
 
-  // Загружает сохранённую сортировку из localStorage (если включено)
-  // - Устанавливает currentSortField и currentSortOrder
   if (config.rememberSort) {
     const vault = app.vault.getName();
     const file = dv.current()?.file?.path || "unknown-path";
@@ -3103,18 +2933,10 @@ function runUniversalCards(dv, inputConfig = {}) {
     if (savedOrder) currentSortOrder = savedOrder;
   }
 
-  // 🟢 Продолжаем только если всё готово
   if (canRender) {
-    // === UI-КОНТРОЛЛЕРЫ: Поиск, сортировка, фильтрация ===
-    // Строим верхнюю панель управления:
-    // - Счётчик карточек
-    // - Поле поиска
-    // - Кнопка фильтра
-    // - Кнопки сортировки
     const uiPanel = document.createElement("div");
     uiPanel.className = "universal-control-panel";
 
-    // 🔢 Отображаем общее количество файлов
     if (config.cardCounter?.enabled) {
       const wrapper = document.createElement("div");
       wrapper.className = "universal-total-count";
@@ -3132,26 +2954,21 @@ function runUniversalCards(dv, inputConfig = {}) {
       uiPanel.appendChild(wrapper);
     }
 
-    // 🔍 Поле поиска с кнопкой очистки
     const searchInput = document.createElement("input");
     searchInput.type = "text";
     searchInput.placeholder = config.searchBox?.placeholderText || "Search...";
     searchInput.className = "universal-search-input";
     searchInput.value = currentSearchQuery || "";
 
-    // Обёртка
     const searchWrapper = document.createElement("div");
     searchWrapper.className = "universal-search-wrapper";
 
-    // Кнопка очистки
     const clearBtn = document.createElement("button");
     clearBtn.className = "universal-search-clear-btn";
     clearBtn.textContent = "✕";
 
-    // 🔄 Используем локализацию вместо жёсткой строки
     clearBtn.title = t.UI.SEARCH.CLEAR_BUTTON_TITLE || "Clear";
 
-    // Обработчик очистки
     clearBtn.onclick = () => {
       searchInput.value = "";
       currentSearchQuery = "";
@@ -3159,7 +2976,6 @@ function runUniversalCards(dv, inputConfig = {}) {
       updateCardsOnly();
     };
 
-    // Обработчик ввода
     searchInput.addEventListener("input", (e) => {
       currentSearchQuery = e.target.value;
       clearBtn.style.display = currentSearchQuery ? "block" : "none";
@@ -3168,17 +2984,14 @@ function runUniversalCards(dv, inputConfig = {}) {
       });
     });
 
-    // 🔍 Строка с фильтром и поиском
     const searchRow = document.createElement("div");
     searchRow.className = "universal-search-row";
 
-    // Кнопка фильтра
     const filterButton = document.createElement("button");
     filterButton.className = "universal-filter-button";
     filterButton.textContent = `🔎 ${t.UI.FILTER.BUTTON_LABEL}`;
     filterButton.onclick = () => renderFilterModal(config, renderAll);
 
-    // Добавляем в DOM
     searchWrapper.appendChild(searchInput);
     searchWrapper.appendChild(clearBtn);
 
@@ -3187,32 +3000,22 @@ function runUniversalCards(dv, inputConfig = {}) {
     searchRow.appendChild(filterButton);
     searchRow.appendChild(searchWrapper);
 
-    // Контейнер для кнопок сортировки
     const sortContainer = document.createElement("div");
     sortContainer.className = "universal-sort-buttons";
 
-    // 📦 Общий контейнер для фильтра и сортировок
     const controlGroup = document.createElement("div");
     controlGroup.className = "universal-control-group";
 
-    // Вставляем строку фильтра и контейнер сортировки внутрь
     controlGroup.appendChild(searchRow);
     controlGroup.appendChild(sortContainer);
 
-    // А потом весь этот блок — в uiPanel
     uiPanel.appendChild(controlGroup);
 
-    // Вставка в DOM
     dv.container.prepend(uiPanel);
 
-    /**
-     * Обновляет кнопки сортировки в UI.
-     * - Автоматически выделяет активную кнопку.
-     * - Сохраняет выбранную сортировку в `localStorage` (если включено в config).
-     * @example
-     * rebuildSortButtons(); // → создаёт кнопки ["🔤 По названию", "🏷️ По жанру", ...]
-     */
-    const rebuildSortButtons = () => {
+    // 🔁 Rebuilds sorting buttons in the UI after filter or layout change.
+    // Updates button state and sorting indicators in the interface.
+    function rebuildSortButtons() {
       sortContainer.innerHTML = "";
 
       config.sortButtons.forEach(({ label, field, special, emoji }) => {
@@ -3235,11 +3038,9 @@ function runUniversalCards(dv, inputConfig = {}) {
 
         btn.onclick = () => {
           if (currentSortField !== key) {
-            // Новая кнопка — берём порядок из кнопки
             currentSortField = key;
             currentSortOrder = btn.order || "asc";
           } else {
-            // Повторный клик — меняем порядок
             currentSortOrder = currentSortOrder === "asc" ? "desc" : "asc";
           }
 
@@ -3258,25 +3059,24 @@ function runUniversalCards(dv, inputConfig = {}) {
             );
           }
 
-          renderAll(); // 🔁 перерисовать всё
+          renderAll();
         };
 
         sortContainer.appendChild(btn);
       });
-    };
+    }
 
-    // 🧱 Отрисовка одной строки таблицы
-    const renderRow = (page) => {
+    // 🧬 Legacy or dynamic single-row rendering fallback.
+    // Invokes generateRow using the last section config from context.
+    function renderRow(page) {
       return Object.entries(config.fields).map(([key, def]) =>
         renderField(page, key, def, config)
       );
-    };
+    }
 
-    /**
-     * Показывает "заглушку", если после всех фильтров карточек не осталось
-     * Вставляется невидимая таблица + текст
-     */
-    const renderEmptyPlaceholder = () => {
+    // 🕳️ Renders a placeholder message in the container when no data is found.
+    // Triggered when filtering or sorting results in an empty view.
+    function renderEmptyPlaceholder() {
       const tableWrapper = document.createElement("div");
       tableWrapper.className = "universal-empty-table-wrapper";
 
@@ -3303,12 +3103,11 @@ function runUniversalCards(dv, inputConfig = {}) {
         </div>
       `;
       uiPanel.appendChild(message);
-    };
+    }
 
-    /**
-     * Удаляет заглушку и сообщение, если они были вставлены ранее
-     */
-    const clearEmptyPlaceholder = () => {
+    // 🧹 Removes the "no data" placeholder if it exists in the container.
+    // Called before re-rendering data or changing filters.
+    function clearEmptyPlaceholder() {
       const placeholder = dv.container.querySelector(
         ".universal-empty-table-wrapper"
       );
@@ -3316,24 +3115,28 @@ function runUniversalCards(dv, inputConfig = {}) {
 
       const oldMessage = uiPanel.querySelector(".universal-no-results");
       if (oldMessage) oldMessage.remove();
-    };
+    }
 
-    const ensureLayoutPlaceholder = () => {
+    // 🧱 Ensures that a layout-style placeholder is rendered if layout is set to "table".
+    // Prevents layout shift during data loading. No effect in "grid" mode.
+    function ensureLayoutPlaceholder() {
       const id = "universal-layout-placeholder";
       let existing = document.getElementById(id);
 
       if (!existing) {
         const el = document.createElement("div");
         el.id = id;
-        el.style.height = "250px"; // Подгони под среднюю высоту карточек
+        el.style.height = "250px";
         el.style.opacity = "0";
         el.style.pointerEvents = "none";
         el.style.transition = "opacity 0.3s ease";
         dv.container.appendChild(el);
       }
-    };
+    }
 
-    const renderLayoutPlaceholderLikeTable = () => {
+    // 📐 Inserts a placeholder container styled similarly to a table layout.
+    // Useful when layout mode is set to "table" but data hasn't loaded yet.
+    function renderLayoutPlaceholderLikeTable() {
       const tableWrapper = document.createElement("div");
       tableWrapper.className =
         "universal-empty-table-wrapper universal-layout-fake-table";
@@ -3345,45 +3148,38 @@ function runUniversalCards(dv, inputConfig = {}) {
 
       const oldContainer = dv.container;
       dv.container = tableWrapper;
-      dv.table(headers, [emptyRow]); // ⬅️ это важно: создаёт псевдо-таблицу
+      dv.table(headers, [emptyRow]);
       dv.container = oldContainer;
-    };
+    }
 
-    const removeLayoutPlaceholder = () => {
+    // ❌ Removes the layout-style placeholder from the container.
+    // Typically called before inserting actual rendered rows.
+    function removeLayoutPlaceholder() {
       const placeholder = dv.container.querySelector(
         ".universal-layout-fake-table"
       );
       if (placeholder) placeholder.remove();
-    };
+    }
 
-    /**
-     * Проверяет, отрисована ли хотя бы одна таблица (то есть открыта секция с карточками)
-     */
-    const isAnySectionOpen = () => {
+    // 🔎 Checks if any section in the layout is currently expanded (not collapsed).
+    // Used to determine whether to show or hide the "Collapse All" button.
+    function isAnySectionOpen() {
       return !!dv.container.querySelector("details[open] table");
-    };
+    }
 
-    /**
-     * Основная функция рендеринга карточек.
-     * 1. Применяет фильтры и поиск.
-     * 2. Сортирует карточки.
-     * 3. Отображает их в секциях или как "остальные".
-     * @param {HTMLElement} container - DOM-элемент, куда вставляются карточки.
-     * @returns {object} - { headers: string[], rows: string[][] } (для кэширования).
-     */
-    const renderCards = (container) => {
-      const afterFilter = applyFilters(pages, config); // 🔹 фильтры (Whitelist / Blacklist)
-      const afterSearch = filterPages(afterFilter, currentSearchQuery); // 🔹 поиск по строке
-      const sortedPages = sortPages(afterSearch); // 🔹 итоговая сортировка
+    // 🧾 Entry point for rendering all cards into the provided container.
+    // Handles sorting, filtering, layout rendering, and placeholder logic.
+    function renderCards(container) {
+      const afterFilter = applyFilters(pages, config);
+      const afterSearch = filterPages(afterFilter, currentSearchQuery);
+      const sortedPages = sortPages(afterSearch);
 
       const renderedPages = new Set();
       const blockedPages = new Set();
 
-      // ✅ Удалим заглушку и сообщение, если они были
       clearEmptyPlaceholder();
       removeLayoutPlaceholder();
 
-      // ⚠️ Нет результатов — показать заглушку
       if (afterSearch.length === 0) {
         renderEmptyPlaceholder();
         ensureLayoutPlaceholder();
@@ -3393,11 +3189,9 @@ function runUniversalCards(dv, inputConfig = {}) {
         };
       }
 
-      // 🧩 Рендер секций
       renderSections(sortedPages, renderedPages, blockedPages);
       const remainingPages = renderRemainingPages(sortedPages, renderedPages);
 
-      // 🧩 Вставим псевдо-таблицу, если карточки есть, но ни одна не отображается
       if (!isAnySectionOpen()) {
         renderLayoutPlaceholderLikeTable();
       } else {
@@ -3408,8 +3202,10 @@ function runUniversalCards(dv, inputConfig = {}) {
         headers: Object.values(config.fields).map((f) => f.label),
         rows: remainingPages.map(renderRow),
       };
-    };
+    }
 
+    // 🔘 Adds a "Collapse All / Expand All" toggle button to the container header.
+    // Button state reflects current layout state across all sections.
     function insertCollapseAllButton(container) {
       const oldBtn = container.querySelector(".universal-collapse-button");
       if (oldBtn) oldBtn.remove();
@@ -3420,20 +3216,17 @@ function runUniversalCards(dv, inputConfig = {}) {
       button.title = t.UI.COLLAPSE_ALL.TOOLTIP;
 
       button.addEventListener("click", () => {
-        // === 1. Закрытие секций
         const openSections = container.querySelectorAll(
           "details.universal-section[open]"
         );
         openSections.forEach((el) => el.removeAttribute("open"));
 
-        // === 2. Очистка localStorage
         for (const key in localStorage) {
           if (key.startsWith("universal-section-")) {
             localStorage.removeItem(key);
           }
         }
 
-        // === 3. Скроллим до самого верха в scrollable-области Obsidian
         const scrollable = findScrollableParent(dv.container);
         if (scrollable) {
           scrollable.scrollTo({ top: 0, behavior: "smooth" });
@@ -3445,6 +3238,8 @@ function runUniversalCards(dv, inputConfig = {}) {
       container.appendChild(button);
     }
 
+    // 📜 Traverses up the DOM tree to find the nearest scrollable parent element.
+    // Used to attach scroll-based observers or behavior to dynamic content.
     function findScrollableParent(el) {
       while (el) {
         const style = getComputedStyle(el);
@@ -3460,11 +3255,9 @@ function runUniversalCards(dv, inputConfig = {}) {
       return null;
     }
 
-    // Перерисовывает только таблицу карточек (без панели):
-    // - Используется при вводе в строку поиска
-    // - Минимизирует затраты: не трогает фильтры и сортировку
-    // 🔹 Используется в: searchInput.addEventListener("input", ...)
-    const updateCardsOnly = () => {
+    // 🔄 Re-renders only the card rows in-place without touching layout or placeholders.
+    // Used for dynamic updates (e.g. after filtering or tag selection) to improve performance.
+    function updateCardsOnly() {
       const allNodes = [...dv.container.children];
       const uiPanelEl = uiPanel;
 
@@ -3479,16 +3272,11 @@ function runUniversalCards(dv, inputConfig = {}) {
       cache.headers = headers;
       cache.rows = rows;
       cache.rendered = true;
-    };
+    }
 
-    // Основная точка входа рендера: инициализирует интерфейс и вызывает отрисовку
-    // - Строит UI (панель поиска, фильтра, сортировки)
-    // - Применяет поиск, фильтры, сортировку
-    // - Вызывает renderSections и renderRemainingPages
-    // 🔹 Использует: applyFilters, filterPages, sortPages, renderSections, renderRemainingPages
-    // создаёт uiPanel, sortButtons, searchInput
-    const renderAll = () => {
-      // Очистка и инициализация
+    // 🚀 Triggers full rendering pipeline: placeholder, sort, section render, remaining pages, etc.
+    // Calls renderCards and sets up layout state tracking.
+    function renderAll() {
       dv.container.innerHTML = "";
 
       if (
@@ -3502,25 +3290,12 @@ function runUniversalCards(dv, inputConfig = {}) {
       rebuildSortButtons();
       dv.container.appendChild(uiPanel);
 
-      // Сброс кэша изображений перед новой отрисовкой
       cache.imageIds = [];
 
-      // Отрисовка всех карточек
       const { headers, rows } = renderCards(dv.container);
 
-      // Навешиваем обработчики модалок на изображения (если уже отрисовались)
       activateModalHandlers(config);
 
-      /**
-       * ⬇️ Обеспечиваем работу модалок изображений в секциях карточек.
-       *
-       * Проблема: если секция <details> была свёрнута при первой загрузке,
-       * её содержимое (включая <img>) появляется только при раскрытии — позже.
-       * Поэтому нужно повторно вызывать activateModalHandlers, когда пользователь
-       * кликает по <summary> (заголовок секции).
-       *
-       * Мы даём 200ms на завершение отрисовки и навешиваем обработчики на все summary.
-       */
       setTimeout(() => {
         document
           .querySelectorAll(".universal-section summary")
@@ -3528,28 +3303,23 @@ function runUniversalCards(dv, inputConfig = {}) {
             summaryEl.addEventListener("click", () => {
               setTimeout(() => {
                 activateModalHandlers(config);
-              }, 100); // ⏱ немного ждём, пока DOM обновится после раскрытия
+              }, 100);
             });
           });
-      }, 200); // ⏱ даём времени карточкам отрисоваться
+      }, 200);
 
-      // Сохраняем метаданные
       cache.headers = headers;
       cache.rows = rows;
-
-      // === 🧷 КНОПКА "СВЕРНУТЬ ВСЁ" ===
 
       insertCollapseAllButton(dv.container);
 
       cache.rendered = true;
-    };
+    }
 
-    // === Кэширование при переходах между вкладками ===
     if (cache.rendered && cache.headers && cache.rows?.length) {
       try {
         dv.table(cache.headers, cache.rows);
       } catch (e) {
-        // 🧠 Если не получилось — сделаем полную перерисовку
         renderAll();
       }
     } else {

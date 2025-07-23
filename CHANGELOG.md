@@ -1,6 +1,32 @@
 # Changelog
 
-All notable changes to this project will be documented in this file.
+_All notable changes to this project will be documented in this file._
+
+## [v1.0.0] - 2025-07-23
+
+---
+
+### 💥 Major milestone: First stable release!
+
+After a period of beta testing, the script has officially reached **version 1.0.0**.  
+This marks the beginning of the stable release cycle.
+
+---
+
+### Added
+
+- 🎉 **Initial stable release (v1.0.0)**
+- Minor improvements to the README.
+
+### Documentation
+
+- Added section: 09 How to Report an Issue or Suggest a Feature
+
+### Fixed
+
+- Minor bug fixes and improvements.
+
+---
 
 ## [v0.3.0] - 2025-07-12
 
@@ -91,6 +117,7 @@ Make sure to carefully read the [Migration Notes](#migration-notes) section belo
 
 ---
 
+[v1.0.0]: https://github.com/2PleXXX/obsidian-dataview-cards/compare/v0.3.0...v1.0.0
 [v0.3.0]: https://github.com/2PleXXX/obsidian-dataview-cards/compare/v0.2.0...v0.3.0
 [v0.2.0]: https://github.com/2PleXXX/obsidian-dataview-cards/compare/v0.1.0...v0.2.0
 [v0.1.0]: https://github.com/2PleXXX/obsidian-dataview-cards/compare/v0.0.2...v0.1.0

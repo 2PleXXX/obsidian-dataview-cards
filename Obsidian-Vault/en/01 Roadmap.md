@@ -82,6 +82,7 @@ In such cases:
 - [ ] [[06 How to Hide Properties]]
 - [ ] [[07 How to Update the Script]]
 - [ ] [[08 Contact the Author]]
+- [ ] [[09 How to Report an Issue or Suggest a Feature]]
 
 ---
 

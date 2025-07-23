@@ -694,51 +694,53 @@ body .markdown-preview-view.wide-50 .markdown-preview-sizer {
 /* ❌ Ошибка загрузки скрипта                        */
 /* ❌ SCRIPT LOAD ERROR                              */
 /* ================================================= */
-.universal-error-box {
-  --bg-color: var(--background-modifier-error);
-  --border-color: var(--background-modifier-error-border, var(--color-red));
-  --text-color: var(--text-error, var(--color-red));
+body .universal-error-box {
+  --bg-color: rgba(255, 0, 0, 0.05);
+  --text-color: var(--text-normal, #333);
+  --border-color: rgba(255, 0, 0, 0.3);
+  --accent-color: rgba(255, 0, 0, 0.8);
 
   background-color: var(--bg-color);
   color: var(--text-color);
   border: 1px solid var(--border-color);
-  border-left: 4px solid var(--color-red);
-  border-radius: var(--radius-s);
+  border-left: 4px solid var(--accent-color);
+  border-radius: var(--radius-s, 6px);
   padding: 1em 1.25em;
   margin: 2em 0;
-  font-size: var(--font-ui-sm);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+  font-size: var(--font-ui-sm, 0.875em);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 
   animation: errorBoxEntrance 0.4s ease-out,
     pulseBorder 2.5s ease-in-out infinite;
   transform-origin: top;
 }
 
-.universal-error-box h3 {
+body .universal-error-box h3 {
   margin: 0 0 0.5em 0;
-  font-size: var(--font-ui-lg);
+  font-size: var(--font-ui-lg, 1.125em);
   font-weight: 600;
   line-height: 1.4;
 }
 
-.universal-error-box ul {
+body .universal-error-box ul {
   margin: 0.5em 0;
   padding-left: 1.2em;
   list-style-type: disc;
 }
 
-.universal-error-box li {
+body .universal-error-box li {
   margin-bottom: 0.3em;
   line-height: 1.5;
 }
 
-.universal-error-box p {
+body .universal-error-box p {
   margin-top: 1em;
   font-weight: 500;
-  color: var(--text-muted);
+  color: var(--text-muted, #666);
   font-style: italic;
 }
 
+/* Анимации */
 @keyframes errorBoxEntrance {
   0% {
     opacity: 0;
@@ -753,10 +755,10 @@ body .markdown-preview-view.wide-50 .markdown-preview-sizer {
 @keyframes pulseBorder {
   0%,
   100% {
-    border-left-color: var(--color-red);
+    border-left-color: rgba(255, 0, 0, 0.8);
   }
   50% {
-    border-left-color: var(--color-orange);
+    border-left-color: rgba(255, 128, 0, 0.8);
   }
 }
 

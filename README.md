@@ -5,7 +5,7 @@
 > A powerful script for displaying customizable cards in Obsidian, built with DataviewJS. Includes support for sections, filtering, sorting, embedded media, progress bars, and more.  
 > Fully compatible with any Obsidian theme.
 
-![version-badge](https://img.shields.io/badge/version-0.3.0-blue)
+![version-badge](https://img.shields.io/badge/version-1.0.0-blue)
 ![license-badge](https://img.shields.io/badge/license-MIT-green)
 ![last-update](https://img.shields.io/badge/last_update-July_2025-orange)
 
@@ -37,7 +37,7 @@ _A simple example of an interface with books and movies_
 
 ## 🎥 **Video Demo**
 
-[![Смотреть демо](Obsidian-Vault/assets/Screenshots/Video_Preview_Interface.png)](https://www.youtube.com/watch?v=I-n4x_6X_C4)
+[![Watch demo](Obsidian-Vault/assets/Screenshots/Video_Preview_Interface.png)](https://youtu.be/rI1jzhVrjAs)
 
 ▶️ **Click the image to watch a video demonstration**
 
