@@ -83,25 +83,34 @@ To ensure proper functionality, it's recommended to install the following compon
 
 ---
 
-## 🚀 **Getting Started**
+## 🚀 How to Start Using the Script
 
-To start using the script:
+Choose one of the three options to get started:
 
-1. Visit the repository:  
-   👉 https://github.com/2PleXXX/obsidian-dataview-cards
+### 🔹 Option 1: Download the Release Archive
 
-2. Click the **"Code"** button and choose **"Download ZIP"**  
-   Or, if you're using Git:
+📦 [Download ready-to-use archive (v1.0.0)](https://github.com/2PleXXX/obsidian-dataview-cards/releases/download/v1.0.0/obsidian-dataview-cards-1.0.0.rar)
+
+### 🔹 Option 2: Manual Download from GitHub
+
+1. Go to the repository:  
+   👉 [https://github.com/2PleXXX/obsidian-dataview-cards](https://github.com/2PleXXX/obsidian-dataview-cards)
+
+2. Click the green **"Code"** button and select **"Download ZIP"**.
+
+### 🔹 Option 3: Clone via Git
 
 ```bash
 git clone https://github.com/2PleXXX/obsidian-dataview-cards.git
 ```
 
-3. Extract the ZIP archive (if downloaded manually).
+✅ After Downloading:
 
-4. In Obsidian, open the extracted `Obsidian-Vault` folder as a new vault.
+1. Unpack the archive (if you downloaded ZIP/RAR).
+2. In Obsidian, open the extracted Obsidian-Vault folder as a new Vault.
+3. Open the homepage (HUB) inside the vault.
 
-5. Explore the built-in home page (HUB) inside the vault. I recommend starting from the **"Starting Point"** note.
+   👉 I recommend starting with the note "Starting Point".
 
 ---
 
