@@ -11,6 +11,10 @@
 
 ---
 
+![](https://count.getloli.com/@Universal-Dataview-Cards?name=Universal-Dataview-Cards&theme=booru-qualityhentais&padding=7&offset=0&align=top&scale=1&pixelated=1&darkmode=0&prefix=0)
+
+---
+
 ## 📸 **Пример интерфейса**
 
 _Простой пример интерфейса с книгами и фильмами_
