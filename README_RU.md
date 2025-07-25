@@ -11,7 +11,7 @@
 
 ---
 
-![](https://count.getloli.com/@Universal-Dataview-Cards?name=Universal-Dataview-Cards&theme=booru-qualityhentais&padding=7&offset=0&align=top&scale=1&pixelated=1&darkmode=0&prefix=0)
+![](https://count.getloli.com/@pleX-Cards?name=pleX-Cards&theme=booru-qualityhentais&padding=7&offset=0&align=top&scale=1&pixelated=1&darkmode=0)
 
 ---
 
